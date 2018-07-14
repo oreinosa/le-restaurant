@@ -1,4 +1,12 @@
 module.exports = {
-  database: 'mongodb://localhost:27017/nodeauth',
-  secret: 'yoursecret'
+  secret: "mysecret",
+  url: 'mongodb://localhost:27017',
+  options: {
+    promiseLibrary: require('bluebird'),
+    dbName: "restaurant",
+    auth: {
+      user: "root",
+      password: "test"
+    }
+  }
 }

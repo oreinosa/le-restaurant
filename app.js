@@ -8,8 +8,8 @@ const config = require('./config/database');
 
 // Connect To Database
 mongoose.Promise = require('bluebird');
-mongoose.connect(config.database, { useMongoClient: true, promiseLibrary: require('bluebird') })
-  .then(() => console.log(`Connected to database ${config.database}`))
+mongoose.connect(config.url, config.options)
+  .then(() => console.log(`Connected to database ${config.url}`))
   .catch((err) => console.log(`Database error: ${err}`));
 
 const app = express();
@@ -43,5 +43,5 @@ app.get('/', (req, res) => {
 
 // Start Server
 app.listen(port, () => {
-  console.log('Server started on port '+port);
+  console.log('Server started on port ' + port);
 });
