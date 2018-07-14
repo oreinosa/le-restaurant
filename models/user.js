@@ -20,20 +20,20 @@ const UserSchema = mongoose.Schema({
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
-module.exports.getUsers = function (id, callback) {
+module.exports.getUsers = (id, callback) => {
   User.find({}, callback);
 }
 
-module.exports.getUserById = function (id, callback) {
+module.exports.getUserById = (id, callback) => {
   User.findById(id, callback);
 }
 
-module.exports.getUserByUsername = function (username, callback) {
+module.exports.getUserByUsername = (username, callback) => {
   const query = { username: username }
   User.findOne(query, callback);
 }
 
-module.exports.addUser = function (newUser, callback) {
+module.exports.addUser = (newUser, callback) => {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(newUser.password, salt, (err, hash) => {
       if (err) throw err;
@@ -43,18 +43,18 @@ module.exports.addUser = function (newUser, callback) {
   });
 }
 
-module.exports.updateUser = function (id, updatedUser, callback) {
+module.exports.updateUser = (id, updatedUser, callback) => {
   const query = { _id: id };
   console.log(`updating user `, id);
   User.updateOne(query, updatedUser, callback);
 }
 
-module.exports.deleteUser = function (id, callback) {
+module.exports.deleteUser = (id, callback) => {
   const query = { _id: id }
   User.deleteOne(query, callback);
 }
 
-module.exports.comparePassword = function (candidatePassword, hash, callback) {
+module.exports.comparePassword = (candidatePassword, hash, callback) => {
   bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
     if (err) throw err;
     callback(null, isMatch);
