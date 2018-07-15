@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'login', component: SignInComponent },
-  { path: 'register', component: SignUpComponent }
+  { path: 'sign-in', component: SignInComponent },
+  { path: 'sign-up', component: SignUpComponent }
 ];
 
 @NgModule({

@@ -1,3 +1,12 @@
-<p>
-  sign-in works!
-</p>
+<div class="row col-12 col-sm-10 col-md-8 col-lg-6 mx-auto text-center">
+  <form #f='ngForm' (ngSubmit)='onSubmit(f.value)'>
+    <h1>Sign in to your account</h1>
+    <mat-form-field>
+      <input matInput type="email" placeholder='Email address' [(ngModel)]='signIn.email' name='email' required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" placeholder='Password' [(ngModel)]='signIn.password' name='password' required>
+    </mat-form-field>
+    <button mat-button type='submit'>Submit</button>
+  </form>
+</div>
