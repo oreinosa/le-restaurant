@@ -10,10 +10,10 @@ const UserSchema = mongoose.Schema({
   email: {
     type: String,
   },
-  username: {
+  password: {
     type: String,
   },
-  password: {
+  role: {
     type: String,
   }
 });
@@ -25,11 +25,15 @@ module.exports.getUsers = (id, callback) => {
 }
 
 module.exports.getUserById = (id, callback) => {
-  User.findById(id, callback);
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    User.findById(id, callback);
+  } else {
+    callback();
+  }
 }
 
-module.exports.getUserByUsername = (username, callback) => {
-  const query = { username: username }
+module.exports.getUserByEmail = (candidateEmail, callback) => {
+  const query = { email: candidateEmail };
   User.findOne(query, callback);
 }
 
@@ -45,7 +49,6 @@ module.exports.addUser = (newUser, callback) => {
 
 module.exports.updateUser = (id, updatedUser, callback) => {
   const query = { _id: id };
-  console.log(`updating user `, id);
   User.updateOne(query, updatedUser, callback);
 }
 

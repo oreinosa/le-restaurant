@@ -12,6 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
 
 
 @NgModule({
@@ -22,10 +24,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SharedModule,
     NotificationsModule,
     CoreModule,
+    AuthModule,
     AppRoutingModule,
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
+  providers:[AuthService]
 })
 
 export class AppModule {

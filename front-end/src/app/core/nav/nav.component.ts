@@ -25,8 +25,8 @@ export class NavComponent {
       { label: 'Home', route: 'home', icon: 'home' },
     ];
     this.actions = [
-      { label: 'Sign in', route: 'sign-in', icon: 'person' },
-      { label: 'Sign up', route: 'sign-up', icon: 'person_add' },
+      { label: 'Login', route: 'login', icon: 'person' },
+      { label: 'Register', route: 'register', icon: 'person_add' },
     ];
   }
 
