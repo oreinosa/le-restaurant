@@ -1,3 +1,4 @@
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './../shared/classes/user';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -9,13 +10,29 @@ import { SignUp } from '../shared/classes/sign-up';
 })
 export class AuthService {
   private api = 'http://localhost:3000/users';
+  private userSubject: BehaviorSubject<User>;
 
-  user: User;
   token: string;
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    this.checkSession();
+  }
+  private checkSession() {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user') as User;
+    this.token = token;
+    this.userSubject = new BehaviorSubject<User>(user);
+  }
+
+  get user(): Observable<User> {
+    return this.userSubject.asObservable();
+  }
+
+  loggedIn() {
+    // return tokenNotExpired();
+  }
 
   signIn(signIn: SignIn) {
     return this.http.post(this.api + '/sign-in', signIn);
@@ -25,10 +42,16 @@ export class AuthService {
     return this.http.post(this.api + '/sign-up', signUp);
   }
 
+  signOut() {
+    return this.http.post(this.api + '/sign-out', {});
+  }
+
   updateUserData(user: User, token: string) {
     console.log('Updated user : ', user);
-    this.user = user;
+    this.userSubject.next(user);
     this.token = token;
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
 }

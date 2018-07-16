@@ -17,7 +17,7 @@ router.post('/sign-up', (req, res, next) => {
   User.getUserByEmail(newUser.email, (err, user) => {
     if (err) res.status(500).json({ success: false, msg: 'Failed to register user', err: err });
     if (!!user) {
-      res.json({ success: false, msg: 'email address already in use' });
+      res.json({ success: false, msg: 'Email address already in use' });
     } else {
       User.addUser(newUser, (err, user) => {
         if (err) {
@@ -37,31 +37,31 @@ router.post('/sign-in', (req, res, next) => {
   if (email && password) {
     User.getUserByEmail(email, (err, user) => {
       if (err) throw err;
-      if (!user) {
-        return res.json({ success: false, msg: 'User not found' });
+      if (user) {
+        User.comparePassword(password, user.password, (err, isMatch) => {
+          if (err) throw err;
+          // res.json({ succes: false, msg: 'unable to sign in', err: err });
+          if (isMatch) {
+            const token = jwt.sign({ data: user }, config.secret, {
+              expiresIn: 604800 // 1 week
+            });
+            res.json({
+              success: true,
+              token: `Bearer ${token}`,
+              user: {
+                id: user._id,
+                name: user.name,
+                username: user.username,
+                email: user.email,
+                role: user.role
+              }
+            });
+          } else
+            res.json({ success: false, msg: 'Wrong email/password' });
+        });
+      } else {
+        res.json({ success: false, msg: 'Wrong email/password' });
       }
-      User.comparePassword(password, user.password, (err, isMatch) => {
-        if (err) res.json({ succes: false, msg: 'unable to sign in', err: err });
-        if (isMatch) {
-          const token = jwt.sign({ data: user }, config.secret, {
-            expiresIn: 604800 // 1 week
-          });
-
-          res.json({
-            success: true,
-            token: `Bearer ${token}`,
-            user: {
-              id: user._id,
-              name: user.name,
-              username: user.username,
-              email: user.email,
-              role: user.role
-            }
-          });
-        } else {
-          return res.json({ success: false, msg: 'Wrong password' });
-        }
-      });
     });
   } else {
     res.status(400).end();
