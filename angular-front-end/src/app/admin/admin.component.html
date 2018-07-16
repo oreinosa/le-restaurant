@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-12 col-sm-5 col-lg-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h2>Menú</h2>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <mat-nav-list>
+              <a mat-list-item *ngFor="let link of links" [routerLink]='link.route' routerLinkActive='active'>
+                <mat-icon *ngIf='mat?.icon'>{{ mat.icon }}</mat-icon>
+                {{ link.label }}
+              </a>
+            </mat-nav-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-12 col-sm-7 col-lg-8">
+    <router-outlet></router-outlet>
+  </div>
+</div>

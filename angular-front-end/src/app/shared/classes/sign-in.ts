@@ -1,6 +1,6 @@
 export class SignIn {
   constructor(
-    email?: string,
-    password?: string
+    public email?: string,
+    public password?: string
   ) { }
 }

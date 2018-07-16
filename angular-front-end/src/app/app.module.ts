@@ -1,3 +1,6 @@
+import { AdminModule } from './admin/admin.module';
+import { AdminGuard } from './auth/admin.guard';
+import { AuthGuard } from './auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -14,22 +17,33 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
+import { JwtModule } from '@auth0/angular-jwt';
 
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:4200', 'localhost:3000'],
+      }
+    }),
     BrowserAnimationsModule,
     SharedModule,
     NotificationsModule,
     CoreModule,
     AuthModule,
+    AdminModule,
     AppRoutingModule,
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
-  providers:[AuthService]
+  providers: [AuthService, AuthGuard, AdminGuard]
 })
 
 export class AppModule {

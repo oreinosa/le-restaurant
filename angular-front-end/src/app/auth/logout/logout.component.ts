@@ -20,20 +20,8 @@ export class LogoutComponent implements OnInit {
   }
 
   onSubmit() {
-    this.auth
-      .signOut()
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.success) {
-            this.auth.updateUserData(null, null);
-            this.notifications.show(`Good bye!`, undefined, 'success');
-            this.dialogRef.close(true);
-          } else {
-            this.notifications.show(`${res.msg}`, undefined, 'danger');
-          }
-        },
-        (e) => console.log(e));
+    this.auth.signOut();
+    this.dialogRef.close(true);
   }
 
 }

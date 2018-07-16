@@ -1,9 +1,11 @@
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './../shared/classes/user';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SignIn } from '../shared/classes/sign-in';
 import { SignUp } from '../shared/classes/sign-up';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +17,19 @@ export class AuthService {
   token: string;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private jwtHelper: JwtHelperService,
+    private router: Router
   ) {
     this.checkSession();
   }
   private checkSession() {
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user') as User;
+    let token: string = null, user: User = null;
+    if (this.loggedIn) {
+      console.log('user is already logged in');
+      token = localStorage.getItem('token');
+      user = JSON.parse(localStorage.getItem('user')) as User;
+    }
     this.token = token;
     this.userSubject = new BehaviorSubject<User>(user);
   }
@@ -31,7 +39,7 @@ export class AuthService {
   }
 
   loggedIn() {
-    // return tokenNotExpired();
+    return !this.jwtHelper.isTokenExpired();
   }
 
   signIn(signIn: SignIn) {
@@ -43,15 +51,20 @@ export class AuthService {
   }
 
   signOut() {
-    return this.http.post(this.api + '/sign-out', {});
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.updateUserData(null, null);
+    this.router.navigate(['']);
   }
 
   updateUserData(user: User, token: string) {
     console.log('Updated user : ', user);
     this.userSubject.next(user);
     this.token = token;
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
+    if (user && token) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+    }
   }
 
 }

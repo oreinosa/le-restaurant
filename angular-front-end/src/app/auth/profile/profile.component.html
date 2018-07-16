@@ -1,0 +1,23 @@
+<ng-container *ngIf='$user | async as user'>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Profile</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h6>
+        <b>ID: </b> {{ user.id }}
+      </h6>
+      <h6>
+        <b>Name: </b> {{ user.name }}
+      </h6>
+      <h6>
+        <b>Email address: </b> {{ user.email }}
+      </h6>
+      <h6>
+        <b>Role: </b> {{ user.role }}
+      </h6>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

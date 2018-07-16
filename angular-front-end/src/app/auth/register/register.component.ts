@@ -10,7 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  signUp: SignUp;
+  signUp: SignUp = new SignUp();
   constructor(
     public dialogRef: MatDialogRef<RegisterComponent>,
     private auth: AuthService,
@@ -18,7 +18,6 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.signUp = new SignUp();
   }
 
   onSubmit(form: any) {

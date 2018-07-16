@@ -10,7 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  signIn: SignIn;
+  signIn: SignIn = new SignIn();
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
     private auth: AuthService,
@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.signIn = new SignIn();
   }
 
   onSubmit(form: any) {
