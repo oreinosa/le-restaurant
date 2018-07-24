@@ -1,3 +1,26 @@
-<p>
-  edit works!
-</p>
+<form #f='ngForm' (ngSubmit)='onSubmit(f)'>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Edit user</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf='user'>
+        <mat-form-field>
+          <input matInput type="text" placeholder='Name' [ngModel]='user.name' name='name' required [readonly]='f.submitted'>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="email" placeholder='Email address' [ngModel]='user.email' name='email' required [readonly]='f.submitted'>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder='Password' [ngModel]='user.password' name='password' required [readonly]='f.submitted'>
+        </mat-form-field>
+      </ng-container>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type='submit' [disabled]='f.invalid || f.submitted'>Submit</button>
+      <button mat-button type='button' routerLink='../../' [disabled]='f.submitted'>Cancel</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -21,7 +21,7 @@ const UserSchema = mongoose.Schema({
 const User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.getUsers = (id, callback) => {
-  User.find({}, callback);
+  User.find({}, { password: 0 }, callback);
 }
 
 module.exports.getUserById = (id, callback) => {
