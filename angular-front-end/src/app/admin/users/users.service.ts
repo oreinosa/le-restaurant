@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { HOST } from '../../shared/host';
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  private api = 'http://localhost:3000/users/';
+  private api = HOST + '/users/';
 
   constructor(
     private http: HttpClient

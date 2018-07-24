@@ -3,15 +3,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './../shared/classes/user';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SignIn } from '../shared/classes/sign-in';
-import { SignUp } from '../shared/classes/sign-up';
+import { Login } from '../shared/classes/login';
+import { Register } from '../shared/classes/register';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { HOST } from '../shared/host';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private api = 'http://localhost:3000/users';
+  private api = HOST + '/auth';
   private userSubject: BehaviorSubject<User>;
 
   token: string;
@@ -42,12 +43,12 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired();
   }
 
-  signIn(signIn: SignIn) {
-    return this.http.post(this.api + '/sign-in', signIn);
+  login(login: Login) {
+    return this.http.post(this.api + '/login', login);
   }
 
-  signUp(signUp: SignUp) {
-    return this.http.post(this.api + '/sign-up', signUp);
+  register(register: Register) {
+    return this.http.post(this.api + '/register', register);
   }
 
   signOut() {

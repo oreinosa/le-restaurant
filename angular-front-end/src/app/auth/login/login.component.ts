@@ -1,6 +1,6 @@
 import { NotificationsService } from './../../notifications/notifications.service';
 import { AuthService } from './../auth.service';
-import { SignIn } from './../../shared/classes/sign-in';
+import { Login } from './../../shared/classes/login';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -10,7 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  signIn: SignIn = new SignIn();
+  login: Login = new Login();
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
     private auth: AuthService,
@@ -21,9 +21,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    const signIn: SignIn = form.value;
+    const loginForm: Login = form.value;
     this.auth
-      .signIn(signIn)
+      .login(loginForm)
       .subscribe(
         (res: any) => {
           console.log(res);

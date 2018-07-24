@@ -2,6 +2,7 @@ import { UsersService } from './../users.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { map, tap, filter } from 'rxjs/operators';
+import { NotificationsService } from '../../../notifications/notifications.service';
 
 @Component({
   selector: 'app-delete',
@@ -14,7 +15,7 @@ export class DeleteComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private usersService: UsersService,
-    // private notifications: NotificationsService
+    private notifications: NotificationsService
   ) { }
 
   ngOnInit() {
@@ -28,10 +29,13 @@ export class DeleteComponent implements OnInit {
 
   onSubmit() {
     this.usersService.deleteUser(this.id)
-      .subscribe((res:any) => {
-        if(res.success){
-          // this.no
+      .subscribe((res: any) => {
+        if (res.success) {
+          this.notifications.show('User deleted successfully', 'Users', 'success');
+        } else {
+          this.notifications.show('Failed to delete user', 'Users', 'danger');
         }
+        this.router.navigate(['../', '/../'], { relativeTo: this.route });
       }, e => console.log(e));
   }
 

@@ -1,6 +1,6 @@
 import { NotificationsService } from './../../notifications/notifications.service';
 import { AuthService } from './../auth.service';
-import { SignUp } from './../../shared/classes/sign-up';
+import { Register } from './../../shared/classes/register';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -10,7 +10,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  signUp: SignUp = new SignUp();
+  register: Register = new Register();
+  confirmPassword: string;
   constructor(
     public dialogRef: MatDialogRef<RegisterComponent>,
     private auth: AuthService,
@@ -21,8 +22,9 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    const signUp: SignUp = form.value;
-    this.auth.signUp(signUp)
+    const registerForm: Register = form.value;
+    this.auth
+      .register(registerForm)
       .subscribe(
         (res: any) => {
           console.log(res);

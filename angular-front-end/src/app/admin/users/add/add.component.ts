@@ -1,7 +1,7 @@
 import { NotificationsService } from './../../../notifications/notifications.service';
 import { AuthService } from './../../../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { SignUp } from '../../../shared/classes/sign-up';
+import { Register } from '../../../shared/classes/register';
 
 @Component({
   selector: 'app-add',
@@ -9,7 +9,7 @@ import { SignUp } from '../../../shared/classes/sign-up';
   styleUrls: ['./add.component.scss']
 })
 export class AddComponent implements OnInit {
-  user = new SignUp();
+  user = new Register();
   constructor(
     private auth: AuthService,
     private notifications: NotificationsService
@@ -19,10 +19,10 @@ export class AddComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    const user: SignUp = form.value;
+    const user: Register = form.value;
     console.log(user);
     this.auth
-      .signUp(user)
+      .register(user)
       .subscribe(
         (res: any) => {
           console.log(res);

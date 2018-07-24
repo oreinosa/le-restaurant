@@ -14,7 +14,8 @@ mongoose.connect(config.url, config.options)
 
 const app = express();
 
-const users = require('./routes/users');
+const usersRoutes = require('./routes/users/index');
+// const authRoutes = require('./routes/auth/index');
 
 // Port Number
 const port = 3000;
@@ -34,7 +35,8 @@ app.use(passport.session());
 
 require('./config/passport')(passport);
 
-app.use('/users', users);
+app.use('/users', usersRoutes);
+// app.use('/auth', authRoutes);
 
 // Index Route
 app.get('/', (req, res) => {
