@@ -17,14 +17,10 @@ var Server = (function () {
         this.routes();
     }
     Server.prototype.config = function () {
-        var MONGO_URI = "mongodb://ds249311.mlab.com:49311/restaurant";
+        var MONGO_URI = "mongodb://localhost:27017/restaurant";
         mongoose
             .connect(MONGO_URI || process.env.MONGODB_URI, {
-            useNewUrlParser: true,
-            auth: {
-                user: "dbuser",
-                password: "code123"
-            }
+            useNewUrlParser: true
         })
             .then(function () { return console.log("Connected succesfully to DB " + MONGO_URI); })
             .catch(function (err) { return console.log("ERROR ", err); });

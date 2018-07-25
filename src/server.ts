@@ -23,16 +23,12 @@ class Server {
   // application config
   public config(): void {
     const MONGO_URI: string =
-      "mongodb://ds249311.mlab.com:49311/restaurant";
+      "mongodb://localhost:27017/restaurant";
     mongoose
       .connect(
         MONGO_URI || process.env.MONGODB_URI,
         {
-          useNewUrlParser: true,
-          auth: {
-            user: "dbuser",
-            password: "code123"
-          }
+          useNewUrlParser: true
         }
       )
       .then(() => console.log(`Connected succesfully to DB ${MONGO_URI}`))
