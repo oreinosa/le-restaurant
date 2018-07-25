@@ -3,16 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var debug = require("debug");
 var http = require("http");
 var server_1 = require("./server");
-debug('ts-express:server');
+debug("ts-express:server");
 var port = normalizePort(process.env.PORT || 3000);
-server_1.default.set('port', port);
+server_1.default.set("port", port);
 console.log("Server listening on port " + port);
 var server = http.createServer(server_1.default);
 server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+server.on("error", onError);
+server.on("listening", onListening);
 function normalizePort(val) {
-    var port = typeof val === 'string' ? parseInt(val, 10) : val;
+    var port = typeof val === "string" ? parseInt(val, 10) : val;
     if (isNaN(port)) {
         return val;
     }
@@ -24,27 +24,26 @@ function normalizePort(val) {
     }
 }
 function onError(error) {
-    if (error.syscall !== 'listen') {
+    if (error.syscall !== "listen") {
         throw error;
     }
-    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
     switch (error.code) {
-        case 'EACCES':
+        case "EACCES":
             console.error(bind + " requires elevated privileges");
             process.exit(1);
             break;
-        case 'EADDRINUSE':
+        case "EADDRINUSE":
             console.error(bind + " is already in use");
             process.exit(1);
             break;
         default:
-            console.log('error asdaouqnhwoeunqowenwoun');
             throw error;
     }
 }
 function onListening() {
     var addr = server.address();
-    var bind = typeof addr === 'string' ? "pipe " + addr : "port " + addr.port;
+    var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
     debug("Listening on " + bind);
 }
 //# sourceMappingURL=index.js.map
