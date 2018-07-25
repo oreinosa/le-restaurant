@@ -18,10 +18,10 @@ var Server = (function() {
   }
   Server.prototype.config = function() {
     var MONGO_URI =
-      "mongodb://dbuser:code123@ds249311.mlab.com:49311/restaurant&connectTimeoutMS=1000";
+      "mongodb://dbuser:code123@ds249311.mlab.com:49311/restaurant?authSource=restaurant&w=1";
     mongoose
       .connect(
-        MONGO_URI || process.env.MONGODB_URI,
+        MONGO_URI,
         {
           useNewUrlParser: true
         }
