@@ -23,12 +23,16 @@ class Server {
   // application config
   public config(): void {
     const MONGO_URI: string =
-      "mongodb://root:root123@ds249311.mlab.com:49311/restaurant&connectTimeoutMS=1000";
+      "mongodb://ds249311.mlab.com:49311/restaurant&connectTimeoutMS=1000";
     mongoose
       .connect(
         MONGO_URI || process.env.MONGODB_URI,
         {
-          useNewUrlParser: true
+          useNewUrlParser: true,
+          auth: {
+            user: "root",
+            password: "root123"
+          }
         }
       )
       .then(() => console.log(`Connected succesfully to DB ${MONGO_URI}`))
