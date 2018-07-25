@@ -41,6 +41,7 @@ function onError(error: NodeJS.ErrnoException): void {
       process.exit(1);
       break;
     default:
+    console.log('error asdaouqnhwoeunqowenwoun')
       throw error;
   }
 }

@@ -5,16 +5,7 @@ const UserSchema: Schema = new Schema({
     type: Date,
     default: Date.now,
   },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-  firstName: {
-    type: String,
-    default: '',
-    required: true,
-  },
-  lastName: {
+  name: {
     type: String,
     default: '',
     required: true,
@@ -35,13 +26,7 @@ const UserSchema: Schema = new Schema({
     type: String,
     default: '',
     required: true,
-  },
-  posts: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Post',
-    },
-  ],
+  }
 });
 
 export default model('User', UserSchema);
