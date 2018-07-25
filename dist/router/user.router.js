@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
+var passport_1 = require("passport");
 var user_1 = require("../models/user");
 var UserRouter = (function () {
     function UserRouter() {
@@ -34,7 +35,7 @@ var UserRouter = (function () {
             lastName: lastName,
             username: username,
             email: email,
-            password: password,
+            password: password
         });
         user
             .save()
@@ -66,11 +67,11 @@ var UserRouter = (function () {
         });
     };
     UserRouter.prototype.routes = function () {
-        this.router.get('/', this.all);
-        this.router.get('/:username', this.one);
-        this.router.post('/', this.create);
-        this.router.put('/:username', this.update);
-        this.router.delete('/:username', this.delete);
+        this.router.get("/", passport_1.authenticate("auth", { session: false }), this.all);
+        this.router.get("/:username", this.one);
+        this.router.post("/", this.create);
+        this.router.put("/:username", this.update);
+        this.router.delete("/:username", this.delete);
     };
     return UserRouter;
 }());

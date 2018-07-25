@@ -6,7 +6,11 @@ import * as express from "express";
 import * as helmet from "helmet";
 import * as mongoose from "mongoose";
 import * as logger from "morgan";
-import { UserRouter } from "./router/user.router";
+import {
+  session as passportSession,
+  initialize as passportInitialize
+} from "passport";
+import { UserRouter } from "../router/user.router";
 
 const userRouter = new UserRouter();
 
@@ -22,8 +26,7 @@ class Server {
 
   // application config
   public config(): void {
-    const MONGO_URI: string =
-      "mongodb://localhost:27017/restaurant";
+    const MONGO_URI: string = "mongodb://localhost:27017/restaurant";
     mongoose
       .connect(
         MONGO_URI || process.env.MONGODB_URI,
@@ -42,6 +45,8 @@ class Server {
     this.app.use(compression());
     this.app.use(helmet());
     this.app.use(cors());
+    this.app.use(passportInitialize());
+    this.app.use(passportSession());
 
     // cors
     this.app.use((req, res, next) => {

@@ -1,5 +1,6 @@
-import { Request, Response, Router } from 'express';
-import User from '../models/user';
+import { Request, Response, Router } from "express";
+import { authenticate } from "passport";
+import User from "../models/user";
 
 export class UserRouter {
   public router: Router;
@@ -11,10 +12,10 @@ export class UserRouter {
 
   public all(req: Request, res: Response): void {
     User.find()
-      .then((data) => {
+      .then(data => {
         return res.status(200).json({ data });
       })
-      .catch((error) => {
+      .catch(error => {
         res.status(500).json({ error });
         return error;
       });
@@ -24,10 +25,10 @@ export class UserRouter {
     const { username } = req.params;
 
     User.findOne({ username })
-      .then((data) => {
+      .then(data => {
         res.status(200).json({ data });
       })
-      .catch((error) => {
+      .catch(error => {
         res.status(500).json({ error });
       });
   }
@@ -40,15 +41,15 @@ export class UserRouter {
       lastName,
       username,
       email,
-      password,
+      password
     });
 
     user
       .save()
-      .then((data) => {
+      .then(data => {
         res.status(201).json({ data });
       })
-      .catch((error) => {
+      .catch(error => {
         res.status(500).json({ error });
       });
   }
@@ -57,10 +58,10 @@ export class UserRouter {
     const { username } = req.params;
 
     User.findOneAndUpdate({ username }, req.body)
-      .then((data) => {
+      .then(data => {
         res.status(200).json({ data });
       })
-      .catch((error) => {
+      .catch(error => {
         res.status(500).json({ error });
       });
   }
@@ -72,18 +73,18 @@ export class UserRouter {
       .then(() => {
         res.status(204).end();
       })
-      .catch((error) => {
+      .catch(error => {
         res.status(500).json({ error });
       });
   }
 
   // set up our routes
   public routes() {
-    this.router.get('/', this.all);
-    this.router.get('/:username', this.one);
-    this.router.post('/', this.create);
-    this.router.put('/:username', this.update);
-    this.router.delete('/:username', this.delete);
+    this.router.get("/", authenticate("auth", { session: false }), this.all);
+    this.router.get("/:username", this.one);
+    this.router.post("/", this.create);
+    this.router.put("/:username", this.update);
+    this.router.delete("/:username", this.delete);
   }
 }
 
