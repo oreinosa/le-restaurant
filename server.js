@@ -22,8 +22,8 @@ var Server = (function () {
             .connect(MONGO_URI || process.env.MONGODB_URI, {
             useNewUrlParser: true,
             auth: {
-                user: "root",
-                password: "root123"
+                user: "oreinosa",
+                password: "Bhasmasura159"
             }
         })
             .then(function () { return console.log("Connected succesfully to DB " + MONGO_URI); })
