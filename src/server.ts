@@ -23,7 +23,7 @@ class Server {
   // application config
   public config(): void {
     const MONGO_URI: string =
-      "mongodb://root:password123@ds249311.mlab.com:49311/restaurant&connectTimeoutMS=1000";
+      "mongodb://root:root123@ds249311.mlab.com:49311/restaurant&connectTimeoutMS=1000";
     mongoose
       .connect(
         MONGO_URI || process.env.MONGODB_URI,

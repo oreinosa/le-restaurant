@@ -17,7 +17,7 @@ var Server = (function () {
         this.routes();
     }
     Server.prototype.config = function () {
-        var MONGO_URI = "mongodb://root:password123@ds249311.mlab.com:49311/restaurant&connectTimeoutMS=1000";
+        var MONGO_URI = "mongodb://root:root123@ds249311.mlab.com:49311/restaurant&connectTimeoutMS=1000";
         mongoose
             .connect(MONGO_URI || process.env.MONGODB_URI, {
             useNewUrlParser: true
