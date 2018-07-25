@@ -17,10 +17,14 @@ var Server = (function () {
         this.routes();
     }
     Server.prototype.config = function () {
-        var MONGO_URI = "mongodb://root:root123@ds249311.mlab.com:49311/restaurant&connectTimeoutMS=1000";
+        var MONGO_URI = "mongodb://ds249311.mlab.com:49311/restaurant&connectTimeoutMS=1000";
         mongoose
             .connect(MONGO_URI || process.env.MONGODB_URI, {
-            useNewUrlParser: true
+            useNewUrlParser: true,
+            auth: {
+                user: "root",
+                password: "root123"
+            }
         })
             .then(function () { return console.log("Connected succesfully to DB " + MONGO_URI); })
             .catch(function (err) { return console.log("ERROR ", err); });
