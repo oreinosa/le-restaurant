@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var debug = require("debug");
 var http = require("http");
-var server_1 = require("./server");
+var server_1 = require("./config/server");
 debug("ts-express:server");
 var port = normalizePort(process.env.PORT || 3000);
 server_1.default.set("port", port);
