@@ -18,6 +18,7 @@ var Server = (function () {
         this.routes();
     }
     Server.prototype.config = function () {
+        console.log('config server');
         var MONGO_URI = "mongodb://localhost:27017/restaurant";
         mongoose
             .connect(MONGO_URI || process.env.MONGODB_URI, {

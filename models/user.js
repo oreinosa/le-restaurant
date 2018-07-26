@@ -4,30 +4,38 @@ var mongoose_1 = require("mongoose");
 var UserSchema = new mongoose_1.Schema({
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
     name: {
         type: String,
-        default: '',
-        required: true,
+        default: "",
+        required: true
     },
     username: {
         type: String,
-        default: '',
+        default: "",
         required: true,
         unique: true,
-        lowercase: true,
+        lowercase: true
     },
     email: {
         type: String,
-        default: '',
-        required: true,
+        default: "",
+        required: true
     },
     password: {
         type: String,
-        default: '',
-        required: true,
+        default: "",
+        required: true
+    },
+    role: {
+        type: String,
+        default: 'Customer'
     }
 });
-exports.default = mongoose_1.model('User', UserSchema);
+exports.User = mongoose_1.model("User", UserSchema, "users");
+exports.User.schema.methods.getUserByEmail = function (email, callback) {
+    var query = { email: email };
+    exports.User.findOne(query, callback);
+};
 //# sourceMappingURL=user.js.map
