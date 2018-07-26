@@ -1,8 +1,8 @@
 import { Request, Response, Router } from "express";
-import { authenticate } from "passport";
-import User from "../models/user";
+import { User } from "../models/user.model";
+import passport from "../config/passport";
 
-export class UserRouter {
+class UserRouter {
   public router: Router;
 
   constructor() {
@@ -11,7 +11,7 @@ export class UserRouter {
   }
 
   public all(req: Request, res: Response): void {
-    User.find()
+    User.find({}, { password: 0 })
       .then(data => {
         return res.status(200).json({ data });
       })
@@ -57,7 +57,7 @@ export class UserRouter {
   public update(req: Request, res: Response): void {
     const { username } = req.params;
 
-    User.findOneAndUpdate({ username }, req.body)
+    User.findOneAndUpdate({ username }, { $set: req.body }, { new: true })
       .then(data => {
         res.status(200).json({ data });
       })
@@ -80,11 +80,19 @@ export class UserRouter {
 
   // set up our routes
   public routes() {
-    this.router.get("/", authenticate("auth", { session: false }), this.all);
-    this.router.get("/:username", this.one);
-    this.router.post("/", this.create);
-    this.router.put("/:username", this.update);
-    this.router.delete("/:username", this.delete);
+    const requireAdmin = passport.authenticate("admin", { session: false });
+
+    this.router
+      .route("/")
+      .all(requireAdmin)
+      .get(this.all)
+      .post(this.create);
+
+    this.router
+      .route("/:username")
+      .all(requireAdmin)
+      .put(this.update)
+      .delete(this.delete);
   }
 }
 

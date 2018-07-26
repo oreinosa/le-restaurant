@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
-      })
+      });
     });
   }
 

@@ -7,7 +7,7 @@ import { User } from '../../shared/classes/user';
   providedIn: 'root'
 })
 export class UsersService {
-  private api = HOST + '/users/';
+  private api = HOST + 'users';
   private selectedUserSubject = new BehaviorSubject<User>(null);
 
   constructor(

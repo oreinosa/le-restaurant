@@ -10,9 +10,10 @@ import {
   session as passportSession,
   initialize as passportInitialize
 } from "passport";
-import { UserRouter } from "../router/user.router";
+import * as UserRouter from "./router/user.router";
+import * as AuthRouter from "./router/auth.router";
 
-const userRouter = new UserRouter();
+// const userRouter = new UserRouter();
 
 class Server {
   // set app to be of type express.Application
@@ -26,6 +27,7 @@ class Server {
 
   // application config
   public config(): void {
+    console.log("config server");
     const MONGO_URI: string = "mongodb://localhost:27017/restaurant";
     mongoose
       .connect(
@@ -68,8 +70,9 @@ class Server {
   public routes(): void {
     const router: express.Router = express.Router();
 
-    this.app.use("/", router);
-    this.app.use("/api/v1/users", userRouter.router);
+    // this.app.use("/", router);
+    this.app.use("/api/v1/users", UserRouter.default);
+    this.app.use("/api/v1/auth", AuthRouter.default);
   }
 }
 

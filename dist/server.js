@@ -8,8 +8,9 @@ var express = require("express");
 var helmet = require("helmet");
 var mongoose = require("mongoose");
 var logger = require("morgan");
-var user_router_1 = require("./router/user.router");
-var userRouter = new user_router_1.UserRouter();
+var passport_1 = require("passport");
+var UserRouter = require("./router/user.router");
+var AuthRouter = require("./router/auth.router");
 var Server = (function () {
     function Server() {
         this.app = express();
@@ -17,6 +18,7 @@ var Server = (function () {
         this.routes();
     }
     Server.prototype.config = function () {
+        console.log("config server");
         var MONGO_URI = "mongodb://localhost:27017/restaurant";
         mongoose
             .connect(MONGO_URI || process.env.MONGODB_URI, {
@@ -31,6 +33,8 @@ var Server = (function () {
         this.app.use(compression());
         this.app.use(helmet());
         this.app.use(cors());
+        this.app.use(passport_1.initialize());
+        this.app.use(passport_1.session());
         this.app.use(function (req, res, next) {
             res.header("Access-Control-Allow-Origin", "http://localhost:4200");
             res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -41,8 +45,8 @@ var Server = (function () {
     };
     Server.prototype.routes = function () {
         var router = express.Router();
-        this.app.use("/", router);
-        this.app.use("/api/v1/users", userRouter.router);
+        this.app.use("/api/v1/users", UserRouter.default);
+        this.app.use("/api/v1/auth", AuthRouter.default);
     };
     return Server;
 }());

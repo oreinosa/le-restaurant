@@ -1,7 +1,7 @@
 import * as debug from "debug";
 import * as http from "http";
 
-import Server from "./config/server";
+import Server from "./server";
 
 debug("ts-express:server");
 
@@ -31,6 +31,7 @@ function onError(error: NodeJS.ErrnoException): void {
     throw error;
   }
   const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+  console.log(error.code);
   switch (error.code) {
     case "EACCES":
       console.error(`${bind} requires elevated privileges`);
@@ -40,6 +41,7 @@ function onError(error: NodeJS.ErrnoException): void {
       console.error(`${bind} is already in use`);
       process.exit(1);
       break;
+
     default:
       throw error;
   }

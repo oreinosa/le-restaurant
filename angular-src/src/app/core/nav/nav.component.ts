@@ -63,7 +63,7 @@ export class NavComponent {
       case "profile":
         return this.router.navigateByUrl(action);
     }
-    let event = this.dialog
+    const event = this.dialog
       .open(component, {
         width: '350px'
       });
@@ -82,13 +82,14 @@ export class NavComponent {
 
   private updateRouting(role: string) {
     console.log('Updating routing for ', role);
-    let links: any[] = [];
-    let actions: any[] = [];
+    const links: any[] = [];
+    const actions: any[] = [];
     switch (role) {
       case "Admin":
         links.push(
           { label: 'Admin', route: 'admin', icon: 'build' },
         );
+      // tslint:disable-next-line:no-switch-case-fall-through
       case "Customer":
         actions.push(
           { label: 'Profile', name: 'profile', icon: 'person' },

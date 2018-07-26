@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var passport_1 = require("passport");
-var user_1 = require("../models/user");
+var user_model_1 = require("../models/user.model");
+var passport_1 = require("../config/passport");
 var UserRouter = (function () {
     function UserRouter() {
         this.router = express_1.Router();
         this.routes();
     }
     UserRouter.prototype.all = function (req, res) {
-        user_1.default.find()
+        user_model_1.User.find({}, { password: 0 })
             .then(function (data) {
             return res.status(200).json({ data: data });
         })
@@ -20,7 +20,7 @@ var UserRouter = (function () {
     };
     UserRouter.prototype.one = function (req, res) {
         var username = req.params.username;
-        user_1.default.findOne({ username: username })
+        user_model_1.User.findOne({ username: username })
             .then(function (data) {
             res.status(200).json({ data: data });
         })
@@ -30,7 +30,7 @@ var UserRouter = (function () {
     };
     UserRouter.prototype.create = function (req, res) {
         var _a = req.body, firstName = _a.firstName, lastName = _a.lastName, username = _a.username, email = _a.email, password = _a.password;
-        var user = new user_1.default({
+        var user = new user_model_1.User({
             firstName: firstName,
             lastName: lastName,
             username: username,
@@ -48,7 +48,7 @@ var UserRouter = (function () {
     };
     UserRouter.prototype.update = function (req, res) {
         var username = req.params.username;
-        user_1.default.findOneAndUpdate({ username: username }, req.body)
+        user_model_1.User.findOneAndUpdate({ username: username }, { $set: req.body }, { new: true })
             .then(function (data) {
             res.status(200).json({ data: data });
         })
@@ -58,7 +58,7 @@ var UserRouter = (function () {
     };
     UserRouter.prototype.delete = function (req, res) {
         var username = req.params.username;
-        user_1.default.findOneAndRemove({ username: username })
+        user_model_1.User.findOneAndRemove({ username: username })
             .then(function () {
             res.status(204).end();
         })
@@ -67,15 +67,20 @@ var UserRouter = (function () {
         });
     };
     UserRouter.prototype.routes = function () {
-        this.router.get("/", passport_1.authenticate("auth", { session: false }), this.all);
-        this.router.get("/:username", this.one);
-        this.router.post("/", this.create);
-        this.router.put("/:username", this.update);
-        this.router.delete("/:username", this.delete);
+        var requireAdmin = passport_1.default.authenticate("admin", { session: false });
+        this.router
+            .route("/")
+            .all(requireAdmin)
+            .get(this.all)
+            .post(this.create);
+        this.router
+            .route("/:username")
+            .all(requireAdmin)
+            .put(this.update)
+            .delete(this.delete);
     };
     return UserRouter;
 }());
-exports.UserRouter = UserRouter;
 var userRoutes = new UserRouter();
 userRoutes.routes();
 exports.default = userRoutes.router;

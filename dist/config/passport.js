@@ -1,35 +1,42 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var passport_jwt_1 = require("passport-jwt");
-var User = require("../models/user");
-var config = require("../config/database");
-function init(passport) {
-    var opts;
-    opts.jwtFromRequest = passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken();
-    opts.secretOrKey = config.secret;
-    passport.use("auth", new passport_jwt_1.Strategy(opts, function (jwt_payload, done) {
-        User.findById(jwt_payload.data._id)
-            .then(function (user) {
-            var profile = {
-                name: user.name,
-                email: user.email,
-                _id: user._id
-            };
-            return done(null, profile);
-        })
-            .catch(function (err) {
-            return done(err);
-        });
-    }));
-    passport.use("admin", new passport_jwt_1.Strategy(opts, function (jwt_payload, done) {
-        User.findById(jwt_payload.data._id)
-            .then(function (user) {
-            return done(null, user.role === "Admin");
-        })
-            .catch(function (err) {
-            return done(err);
-        });
-    }));
-}
-exports.init = init;
+var passport = require("passport");
+var user_model_1 = require("../models/user.model");
+var config_1 = require("./config");
+var opts = {
+    jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: config_1.Config.secret
+};
+var isLoggedInStrategy = new passport_jwt_1.Strategy(opts, function (jwt_payload, done) {
+    console.log("strategy");
+    var id = jwt_payload.data._id;
+    user_model_1.User.findById(id)
+        .then(function (user) {
+        user.password = undefined;
+        return done(null, user);
+    })
+        .catch(function (err) {
+        return done(err);
+    });
+});
+var isAdminStrategy = new passport_jwt_1.Strategy(opts, function (jwt_payload, done) {
+    var id = jwt_payload.data._id;
+    var role = "Admin";
+    var query = { _id: id, role: role };
+    user_model_1.User.findOne(query)
+        .then(function (user) {
+        if (user) {
+            user.password = undefined;
+            return done(null, user);
+        }
+        return done(null);
+    })
+        .catch(function (err) {
+        return done(err);
+    });
+});
+passport.use("auth", isLoggedInStrategy);
+passport.use("admin", isAdminStrategy);
+exports.default = passport;
 //# sourceMappingURL=passport.js.map

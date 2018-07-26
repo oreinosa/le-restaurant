@@ -12,7 +12,7 @@ import { HOST } from '../shared/host';
   providedIn: 'root'
 })
 export class AuthService {
-  private api = HOST + '/auth';
+  private api = HOST + 'auth';
   private userSubject: BehaviorSubject<User>;
 
   token: string;
