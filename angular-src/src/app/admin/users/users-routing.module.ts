@@ -10,8 +10,10 @@ const routes: Routes = [
   {
     path: '', component: UsersComponent, children: [
       { path: 'add', component: AddComponent },
-      { path: 'edit/:id', component: EditComponent },
-      { path: 'delete/:id', component: DeleteComponent }
+      { path: 'edit', component: EditComponent },
+      { path: 'edit/:username', component: EditComponent },
+      { path: 'delete', component: DeleteComponent },
+      { path: 'delete/:username', component: DeleteComponent },
     ]
   },
 ];

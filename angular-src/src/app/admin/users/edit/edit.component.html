@@ -11,10 +11,15 @@
           <input matInput type="text" placeholder='Name' [ngModel]='user.name' name='name' required [readonly]='f.submitted'>
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="email" placeholder='Email address' [ngModel]='user.email' name='email' required [readonly]='f.submitted'>
+          <input matInput type="text" placeholder='User name' [ngModel]='user.username' name='username' required [readonly]='f.submitted'>
         </mat-form-field>
+        <!-- <mat-form-field>
+          <input matInput type="email" placeholder='Email address' [ngModel]='user.email' name='email' required [readonly]='f.submitted'>
+        </mat-form-field> -->
         <mat-form-field>
-          <input matInput type="text" placeholder='Password' [ngModel]='user.password' name='password' required [readonly]='f.submitted'>
+          <mat-select placeholder='Role' [ngModel]='user.role' name='role' required [disabled]='f.submitted'>
+            <mat-option *ngFor='let role of roles' [value]='role'>{{ role }}</mat-option>
+          </mat-select>
         </mat-form-field>
       </ng-container>
     </mat-card-content>

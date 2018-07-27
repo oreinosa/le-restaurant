@@ -1,8 +1,10 @@
 import { UsersService } from './../users.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { map, tap, filter } from 'rxjs/operators';
+import { map, tap, filter, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from '../../../notifications/notifications.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-delete',
@@ -10,7 +12,8 @@ import { NotificationsService } from '../../../notifications/notifications.servi
   styleUrls: ['./delete.component.scss']
 })
 export class DeleteComponent implements OnInit {
-  id: string
+  private ngUnsubscribe = new Subject();
+  username: string
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -21,22 +24,28 @@ export class DeleteComponent implements OnInit {
   ngOnInit() {
     this.route
       .paramMap.pipe(
-        map(params => params.get('id')),
-        tap(id => !!id ? false : this.router.navigate(['../'])),
-        filter(id => !!id))
-      .subscribe(id => this.id = id);
+        takeUntil(this.ngUnsubscribe),
+        map(params => params.get('username')),
+        // tap(username => !!username ? false : this.router.navigate(['../'], { relativeTo: this.route })),
+        filter(username => !!username))
+      .subscribe(username => this.username = username);
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   onSubmit() {
-    this.usersService.deleteUser(this.id)
-      .subscribe((res: any) => {
-        if (res.success) {
+    this.usersService.deleteUser(this.username)
+      .subscribe(
+        (res: any) => {
           this.notifications.show('User deleted successfully', 'Users', 'success');
-        } else {
-          this.notifications.show('Failed to delete user', 'Users', 'danger');
-        }
-        this.router.navigate(['../', '/../'], { relativeTo: this.route });
-      }, e => console.log(e));
+        },
+        (e: HttpErrorResponse) => {
+          this.notifications.show(e.error, 'Users', 'danger');
+        },
+        () => this.router.navigate(['../../'], { relativeTo: this.route }));
   }
 
 }

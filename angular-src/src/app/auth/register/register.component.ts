@@ -28,15 +28,14 @@ export class RegisterComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log(res);
-          if (res.success) {
-            this.notifications.show(res.msg, undefined, 'success');
-            this.dialogRef.close();
-          } else {
-            this.notifications.show(res.msg, undefined, 'danger');
-            form.resetForm();
-          }
+          this.notifications.show(res.msg, undefined, 'success');
+          this.dialogRef.close();
         },
-        (e) => console.log(e));
+        (e) => {
+          console.log(e);
+          this.notifications.show('', undefined, 'danger');
+          form.resetForm();
+        });
   }
 
 }

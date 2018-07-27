@@ -5,7 +5,7 @@ import { Config } from "../config/config";
 import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 
-function hashPassword(newUser: IUser): Promise<void> {
+export function hashPassword(newUser: IUser): Promise<void> {
   return bcrypt.genSalt(10).then(salt => {
     return bcrypt.hash(newUser.password, salt).then(hash => {
       newUser.password = hash;
@@ -13,7 +13,7 @@ function hashPassword(newUser: IUser): Promise<void> {
   });
 }
 
-function comparePassword(
+export function comparePassword(
   candidatePassword: string,
   hash: string
 ): Promise<any> {
@@ -51,21 +51,21 @@ class AuthRouter {
                   res.status(200).json({ user, token });
                 } else {
                   // if there's no match
-                  res.status(401).end();
+                  res.status(401).send('Email address or password are incorrect.');
                 }
               })
               .catch(error => {
-                res.status(500).json({ error: "Invalid data" });
+                res.status(500).json({ error });
               });
           } else {
-            res.status(401).end();
+            res.status(401).send('Email address or password are incorrect.');
           }
         })
-        .catch((error: string) => {
-          res.status(500).json({ error: "Invalid data" });
+        .catch(error => {
+          res.status(500).json({error});
         });
     } else {
-      res.status(400).end();
+      res.status(400).send('Missing fields');
     }
   }
 
@@ -87,7 +87,8 @@ class AuthRouter {
             .then(() => {
               // user was added successfully
               newUser.password = undefined;
-              res.status(201).json({ newUser });
+              const data = newUser;
+              res.status(201).json({ data });
             })
             .catch(_error => {
               // error when newUser required properties may be missing
@@ -100,20 +101,19 @@ class AuthRouter {
                 // if duplicate property is email
                 error = "Email" + error;
               }
-              res.status(400).json({ error });
+              res.status(401).send(error);
             });
         })
         .catch(error => res.status(500).json({ error })); // if there's a problem hashing password
     } else {
       // if there are missing fields
-      const error = "Missing fields";
-      res.status(400).json({ error });
+      res.status(400).send("Missing fields");
     }
   }
 
   public profile(req: Request, res: Response): void {
-    const user = req.user;
-    res.status(200).json({ user });
+    const data = req.user;
+    res.status(200).json({ data });
   }
 
   // set up our routes

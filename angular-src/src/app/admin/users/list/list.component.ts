@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { UsersService } from "../users.service";
 import { User } from "../../../shared/classes/user";
 import { Router } from "@angular/router";
+import { switchMap, tap } from "rxjs/operators";
 
 @Component({
   selector: "app-list",
@@ -19,21 +20,24 @@ export class ListComponent implements OnInit {
     "actions"
   ];
   users: User[];
-  constructor(private usersService: UsersService, private router: Router) {}
+
+  constructor(private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
     this.usersService
-      .getUsers()
-      .subscribe((res: any) => (this.users = res.data ? res.data : []));
+      .getUsers().pipe(
+        switchMap(() => this.usersService.users),
+        tap(users => console.log(users))
+      )
+      .subscribe((users: User[]) => this.users = users);
   }
 
   onAction(action: string, user: User) {
-    let id = "";
+    let username = "";
     if (user) {
-      console.log(user);
-      id = user.id;
+      username = user.username;
       this.usersService.setSelectedUser(user);
     }
-    this.router.navigate(["users", action, id]);
+    this.router.navigate(["admin", "users", action, username]);
   }
 }

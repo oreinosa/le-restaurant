@@ -8,6 +8,7 @@ import { AvatarComponent } from './avatar/avatar.component';
 import { FooterComponent } from './footer/footer.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { CoreRoutingModule } from './core-routing.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { CoreRoutingModule } from './core-routing.module';
     AvatarComponent,
     FooterComponent,
     FeedbackComponent,
+    NotFoundComponent,
   ]
 })
 export class CoreModule { }

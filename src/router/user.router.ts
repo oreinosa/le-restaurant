@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { User } from "../models/user.model";
 import passport from "../config/passport";
+import { hashPassword } from "./auth.router";
 
 class UserRouter {
   public router: Router;
@@ -24,7 +25,7 @@ class UserRouter {
   public one(req: Request, res: Response): void {
     const { username } = req.params;
 
-    User.findOne({ username })
+    User.findOne({ username }, { password: 0 })
       .then(data => {
         res.status(200).json({ data });
       })
@@ -34,35 +35,62 @@ class UserRouter {
   }
 
   public create(req: Request, res: Response): void {
-    const { firstName, lastName, username, email, password } = req.body;
+    const { name, username, email, password } = req.body;
 
     const user = new User({
-      firstName,
-      lastName,
+      name,
       username,
       email,
       password
     });
-
-    user
-      .save()
-      .then(data => {
-        res.status(201).json({ data });
+    hashPassword(user) // hash user's password before saving
+      .then(() => {
+        // once password has been hashed
+        return User.create(user)
+          .then(() => {
+            // user was added successfully
+            user.password = undefined;
+            const data = user;
+            res.status(201).json({ data });
+          })
+          .catch(_error => {
+            // error when newUser required properties may be missing
+            let error: string = " already in use"; // start message for "already in use"
+            let message: string = _error.message; // get error message which will contain duplicate property
+            if (message.indexOf("username") >= 0) {
+              // if duplicate property is username
+              error = "Username" + error;
+            } else if (message.indexOf("email") >= 0) {
+              // if duplicate property is email
+              error = "Email" + error;
+            }
+            res.status(400).send(error);
+          });
       })
-      .catch(error => {
-        res.status(500).json({ error });
-      });
+      .catch(error => res.status(500).json({ error })); // if there's a problem hashing password
   }
 
   public update(req: Request, res: Response): void {
     const { username } = req.params;
-
     User.findOneAndUpdate({ username }, { $set: req.body }, { new: true })
       .then(data => {
+        data.password = undefined;
+        // delete data.password;
+        // console.log(data);
         res.status(200).json({ data });
       })
-      .catch(error => {
-        res.status(500).json({ error });
+      .catch(_error => {
+        // error when newUser required properties may be missing
+        let error: string = " already in use"; // start message for "already in use"
+        let message: string = _error.message; // get error message which will contain duplicate property
+        if (message.indexOf("username") >= 0) {
+          // if duplicate property is username
+          error = "Username" + error;
+        } else if (message.indexOf("email") >= 0) {
+          // if duplicate property is email
+          error = "Email" + error;
+        }
+        res.status(400).send(error);
       });
   }
 
@@ -71,7 +99,7 @@ class UserRouter {
 
     User.findOneAndRemove({ username })
       .then(() => {
-        res.status(204).end();
+        res.status(202).end();
       })
       .catch(error => {
         res.status(500).json({ error });
@@ -91,6 +119,7 @@ class UserRouter {
     this.router
       .route("/:username")
       .all(requireAdmin)
+      .get(this.one)
       .put(this.update)
       .delete(this.delete);
   }

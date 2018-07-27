@@ -1,7 +1,11 @@
+import { UsersService } from './../users.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from "./../../../notifications/notifications.service";
-import { AuthService } from "./../../../auth/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { Register } from "../../../shared/classes/register";
+import { NgForm } from '@angular/forms';
+import { User } from '../../../shared/classes/user';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: "app-add",
@@ -10,28 +14,35 @@ import { Register } from "../../../shared/classes/register";
 })
 export class AddComponent implements OnInit {
   user = new Register();
+  roles = [
+    "Customer",
+    "Admin"
+  ];
   constructor(
-    private auth: AuthService,
+    private usersService: UsersService,
+    private router: Router,
+    private route: ActivatedRoute,
     private notifications: NotificationsService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  onSubmit(form: any) {
+  onSubmit(form: NgForm) {
     const user: Register = form.value;
-    console.log(user);
-    this.auth.register(user).subscribe(
-      (res: any) => {
-        console.log(res);
+    this.usersService.addUser(user).subscribe(
+      (user: User) => {
+        // console.log(user);
         this.notifications.show(
-          `Added user (ID: ${res.newUser._id}`,
+          `Added user (ID: ${user._id}`,
           "Users",
           "success"
         );
+        this.router.navigate(['../'], { relativeTo: this.route });
       },
-      e => {
+      (e: HttpErrorResponse) => {
+        console.log(e.error);
         this.notifications.show(
-          `Email address or username already in use`,
+          e.error,
           "Users",
           "danger"
         );

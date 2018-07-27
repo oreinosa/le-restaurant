@@ -7,12 +7,13 @@ import { Login } from '../shared/classes/login';
 import { Register } from '../shared/classes/register';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HOST } from '../shared/host';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private api = HOST + 'auth';
+  private api = HOST + 'auth/';
   private userSubject: BehaviorSubject<User>;
 
   token: string;
@@ -26,7 +27,7 @@ export class AuthService {
   }
   private checkSession() {
     let token: string = null, user: User = null;
-    if (this.loggedIn) {
+    if (this.loggedIn()) {
       console.log('user is already logged in');
       token = localStorage.getItem('token');
       user = JSON.parse(localStorage.getItem('user')) as User;
@@ -44,11 +45,19 @@ export class AuthService {
   }
 
   login(login: Login) {
-    return this.http.post(this.api + '/login', login);
+    return this.http.post(this.api + 'login', login);
   }
 
   register(register: Register) {
-    return this.http.post(this.api + '/register', register);
+    return this.http.post<any>(this.api + 'register', register)
+      .pipe(
+        map(res => {
+          if (res.data) {
+            return res.data as User;
+          }
+          return res;
+        })
+      );
   }
 
   signOut() {
