@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { User } from "../../../shared/classes/user";
 import { Router, ActivatedRoute } from "@angular/router";
 import { UsersService } from "../users.service";
@@ -9,11 +9,11 @@ import { NotificationsService } from './../../../notifications/notifications.ser
 import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
-  selector: "app-edit",
-  templateUrl: "./edit.component.html",
-  styleUrls: ["./edit.component.scss"]
+  selector: "app-update",
+  templateUrl: "./update.component.html",
+  styleUrls: ["./update.component.scss"]
 })
-export class EditComponent implements OnInit {
+export class UpdateComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
   user: User;
   username: string;
@@ -57,9 +57,9 @@ export class EditComponent implements OnInit {
   onSubmit(form: NgForm) {
     const user: User = form.value;
     this.usersService.editUser(this.username, user).subscribe(
-      (user: User) => {
+      (editedUser: User) => {
         this.notifications.show(
-          `Edited user (ID: ${user._id}`,
+          `Edited user (ID: ${editedUser._id}`,
           "Users",
           "success"
         );

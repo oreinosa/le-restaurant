@@ -1,26 +1,23 @@
-import { UsersService } from './users.service';
-import { NgModule } from '@angular/core';
-import { SharedModule } from './../../shared/shared.module';
+import { UsersService } from "./users.service";
+import { NgModule } from "@angular/core";
+import { SharedModule } from "./../../shared/shared.module";
 
-import { UsersRoutingModule } from './users-routing.module';
-import { UsersComponent } from './users.component';
-import { AddComponent } from './add/add.component';
-import { EditComponent } from './edit/edit.component';
-import { DeleteComponent } from './delete/delete.component';
-import { ListComponent } from './list/list.component';
+import { UsersRoutingModule } from "./users-routing.module";
+import { UsersComponent } from "./users.component";
+import { CreateComponent } from "./create/create.component";
+import { UpdateComponent } from "./update/update.component";
+import { DeleteComponent } from "./delete/delete.component";
+import { ListComponent } from "./list/list.component";
 
 @NgModule({
-  imports: [
-    SharedModule,
-    UsersRoutingModule
-  ],
+  imports: [SharedModule, UsersRoutingModule],
   declarations: [
     UsersComponent,
-    AddComponent,
-    EditComponent,
+    CreateComponent,
+    UpdateComponent,
     DeleteComponent,
     ListComponent
   ],
   providers: [UsersService]
 })
-export class UsersModule { }
+export class UsersModule {}

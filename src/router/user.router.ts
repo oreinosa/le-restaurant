@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { User } from "../models/user.model";
+import { User, IUser } from "../models/user.model";
 import passport from "../config/passport";
 import { hashPassword } from "./auth.router";
 
@@ -13,10 +13,10 @@ class UserRouter {
 
   public all(req: Request, res: Response): void {
     User.find({}, { password: 0 })
-      .then(data => {
+      .then((data: IUser[]) => {
         return res.status(200).json({ data });
       })
-      .catch(error => {
+      .catch((error: any) => {
         res.status(500).json({ error });
         return error;
       });
@@ -29,7 +29,7 @@ class UserRouter {
       .then(data => {
         res.status(200).json({ data });
       })
-      .catch(error => {
+      .catch((error: any) => {
         res.status(500).json({ error });
       });
   }
@@ -53,7 +53,7 @@ class UserRouter {
             const data = user;
             res.status(201).json({ data });
           })
-          .catch(_error => {
+          .catch((_error: any) => {
             // error when newUser required properties may be missing
             let error: string = " already in use"; // start message for "already in use"
             let message: string = _error.message; // get error message which will contain duplicate property
@@ -67,19 +67,19 @@ class UserRouter {
             res.status(400).send(error);
           });
       })
-      .catch(error => res.status(500).json({ error })); // if there's a problem hashing password
+      .catch((error: any) => res.status(500).json({ error })); // if there's a problem hashing password
   }
 
   public update(req: Request, res: Response): void {
     const { username } = req.params;
     User.findOneAndUpdate({ username }, { $set: req.body }, { new: true })
-      .then(data => {
+      .then((data: IUser) => {
         data.password = undefined;
         // delete data.password;
         // console.log(data);
         res.status(200).json({ data });
       })
-      .catch(_error => {
+      .catch((_error: any) => {
         // error when newUser required properties may be missing
         let error: string = " already in use"; // start message for "already in use"
         let message: string = _error.message; // get error message which will contain duplicate property
@@ -99,9 +99,9 @@ class UserRouter {
 
     User.findOneAndRemove({ username })
       .then(() => {
-        res.status(202).end();
+        res.status(204).end();
       })
-      .catch(error => {
+      .catch((error: any) => {
         res.status(500).json({ error });
       });
   }

@@ -12,6 +12,7 @@ import {
 } from "passport";
 import * as UserRouter from "./router/user.router";
 import * as AuthRouter from "./router/auth.router";
+import * as ProductRouter from "./router/product.router";
 
 // const userRouter = new UserRouter();
 
@@ -72,6 +73,7 @@ class Server {
 
     this.app.use("/api/v1/users", UserRouter.default);
     this.app.use("/api/v1/auth", AuthRouter.default);
+    this.app.use("/api/v1/products", ProductRouter.default);
   }
 }
 

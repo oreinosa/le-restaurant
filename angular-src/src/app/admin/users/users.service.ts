@@ -55,9 +55,9 @@ export class UsersService {
         map(res => {
           return res.data as User;
         }),
-        tap(user => {
+        tap(addedUser => {
           const users = this.users.getValue().slice();
-          users.push(user);
+          users.push(addedUser);
           this.users.next(users);
         })
       );
@@ -69,10 +69,10 @@ export class UsersService {
         map(res => {
           return res.data as User;
         }),
-        tap(user => {
+        tap(editedUser => {
           const users = this.users.getValue().slice();
-          const index = users.findIndex(_user => _user._id === user._id);
-          users[index] = user;
+          const index = users.findIndex(_user => _user._id === editedUser._id);
+          users[index] = editedUser;
           this.users.next(users);
         })
       );

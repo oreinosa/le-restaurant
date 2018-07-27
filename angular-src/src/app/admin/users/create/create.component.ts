@@ -1,25 +1,24 @@
-import { ProductsService } from './../products.service';
+import { UsersService } from './../users.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from "./../../../notifications/notifications.service";
 import { Component, OnInit } from "@angular/core";
-import { Register } from "../../../shared/classes/register";
 import { NgForm } from '@angular/forms';
-import { Product } from '../../../shared/classes/product';
+import { User } from '../../../shared/classes/user';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: "app-add",
-  templateUrl: "./add.component.html",
-  styleUrls: ["./add.component.scss"]
+  selector: "app-create",
+  templateUrl: "./create.component.html",
+  styleUrls: ["./create.component.scss"]
 })
-export class AddComponent implements OnInit {
-  product = new Register();
+export class CreateComponent implements OnInit {
+  user = new User();
   roles = [
     "Customer",
     "Admin"
   ];
   constructor(
-    private productsService: ProductsService,
+    private usersService: UsersService,
     private router: Router,
     private route: ActivatedRoute,
     private notifications: NotificationsService
@@ -28,13 +27,13 @@ export class AddComponent implements OnInit {
   ngOnInit() { }
 
   onSubmit(form: NgForm) {
-    const product: Register = form.value;
-    this.productsService.addProduct(product).subscribe(
-      (product: Product) => {
-        // console.log(product);
+    const user: User = form.value;
+    this.usersService.addUser(user).subscribe(
+      (addedUser: User) => {
+        // console.log(user);
         this.notifications.show(
-          `Added product (ID: ${product._id}`,
-          "Products",
+          `Added user (ID: ${addedUser._id}`,
+          "Users",
           "success"
         );
         this.router.navigate(['../'], { relativeTo: this.route });
@@ -43,7 +42,7 @@ export class AddComponent implements OnInit {
         console.log(e.error);
         this.notifications.show(
           e.error,
-          "Products",
+          "Users",
           "danger"
         );
         form.resetForm();

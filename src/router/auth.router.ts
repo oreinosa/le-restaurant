@@ -51,21 +51,23 @@ class AuthRouter {
                   res.status(200).json({ user, token });
                 } else {
                   // if there's no match
-                  res.status(401).send('Email address or password are incorrect.');
+                  res
+                    .status(401)
+                    .send("Email address or password are incorrect.");
                 }
               })
-              .catch(error => {
-                res.status(500).json({ error });
+              .catch((error: any) => {
+                res.status(500).send(error);
               });
           } else {
-            res.status(401).send('Email address or password are incorrect.');
+            res.status(401).send("Email address or password are incorrect.");
           }
         })
-        .catch(error => {
-          res.status(500).json({error});
+        .catch((error: any) => {
+          res.status(500).send(error);
         });
     } else {
-      res.status(400).send('Missing fields');
+      res.status(400).send("Missing fields");
     }
   }
 
@@ -90,7 +92,7 @@ class AuthRouter {
               const data = newUser;
               res.status(201).json({ data });
             })
-            .catch(_error => {
+            .catch((_error: any) => {
               // error when newUser required properties may be missing
               let error: string = " already in use"; // start message for "already in use"
               let message: string = _error.message; // get error message which will contain duplicate property
@@ -104,7 +106,7 @@ class AuthRouter {
               res.status(401).send(error);
             });
         })
-        .catch(error => res.status(500).json({ error })); // if there's a problem hashing password
+        .catch(error => res.status(500).send(error)); // if there's a problem hashing password
     } else {
       // if there are missing fields
       res.status(400).send("Missing fields");

@@ -28,6 +28,10 @@ import {
   MatPaginatorModule,
 } from '@angular/material';
 import { CapitalizePipe } from './pipes/capitalize.pipe';
+import { CreateComponent } from './components/crud/create/create.component';
+import { ListComponent } from './components/crud/list/list.component';
+import { UpdateComponent } from './components/crud/update/update.component';
+import { DeleteComponent } from './components/crud/delete/delete.component';
 
 
 
@@ -93,6 +97,10 @@ import { CapitalizePipe } from './pipes/capitalize.pipe';
   ],
   declarations: [
     CapitalizePipe,
+    CreateComponent,
+    ListComponent,
+    UpdateComponent,
+    DeleteComponent,
   ],
 })
 export class SharedModule { }

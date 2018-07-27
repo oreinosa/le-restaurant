@@ -3,6 +3,7 @@ import { AuthService } from "./../auth.service";
 import { Login } from "./../../shared/classes/login";
 import { Component, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-login",
@@ -34,13 +35,8 @@ export class LoginComponent implements OnInit {
           user: res.user
         });
       },
-      e => {
-        console.log(e);
-        this.notifications.show(
-          "Email address or password are incorrect",
-          undefined,
-          "danger"
-        );
+      (e: HttpErrorResponse) => {
+        this.notifications.show(e.error, undefined, "danger");
         form.resetForm();
       }
     );

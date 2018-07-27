@@ -1,5 +1,4 @@
 import { model, Schema, Model, Document } from "mongoose";
-import { NextFunction } from "connect";
 
 const UserSchema: Schema = new Schema({
   createdAt: {

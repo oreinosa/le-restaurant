@@ -4,8 +4,8 @@ import { SharedModule } from './../../shared/shared.module';
 
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './products.component';
-import { AddComponent } from './add/add.component';
-import { EditComponent } from './edit/edit.component';
+import { CreateComponent } from './create/create.component';
+import { UpdateComponent } from './update/update.component';
 import { DeleteComponent } from './delete/delete.component';
 import { ListComponent } from './list/list.component';
 
@@ -16,8 +16,8 @@ import { ListComponent } from './list/list.component';
   ],
   declarations: [
     ProductsComponent,
-    AddComponent,
-    EditComponent,
+    CreateComponent,
+    UpdateComponent,
     DeleteComponent,
     ListComponent
   ],
