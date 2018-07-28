@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  total: number = 0;
+  subtotal: number = 0;
   user: string;
   constructor(
     private http: HttpClient
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
 
   generateReceipt() {
     const body = {
-      total: this.total,
+      subtotal: this.subtotal,
       user: this.user
     };
     this.http.post(HOST + 'receipt', body, { responseType: 'blob' })
@@ -32,8 +32,13 @@ export class HomeComponent implements OnInit {
         console.log(url);
         a.href = url;
         a.download = 'receipt.pdf';
-        a.click();
-        window.URL.revokeObjectURL(url);
+        // a.click();
+        const frame = document.createElement('iframe');   // CREATE AN IFRAME.
+        frame.style.visibility = "hidden";    // HIDE THE FRAME.
+        frame.src = url;
+        document.body.appendChild(frame);  // APPEND THE FRAME TO THE PAGE.
+        frame.contentWindow.focus();
+        frame.contentWindow.print();
       }, e => console.log(e));
   }
 

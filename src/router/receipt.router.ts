@@ -12,17 +12,35 @@ class ReceiptRouter {
   }
 
   public generateReceipt(req: Request, res: Response): void {
-    const { user, total } = req.body;
+    const { user, subtotal } = req.body;
+    let products: any[] = [
+      { id: "abc", name: "Pilsener", amount: 6, price: 1 },
+      { id: "abc", name: "Pilsener", amount: 6, price: 1 },
+      { id: "abc", name: "Golden", amount: 6, price: 1 },
+    ];
+    const template = path.join(__dirname, '../static/receipts', 'index.html'); // retrieve template url string
+    const filename = template.replace('.html', '.pdf'); // filename will be .pdf
+    let templateHTML = fs.readFileSync(template, 'utf8'); // read file (readfileSync converts file to string)
 
-    const template = path.join(__dirname, '../static/receipts', 'template-test.html');
-    const filename = template.replace('.html', '.pdf');
-    let templateHTML = fs.readFileSync(template, 'utf8');
-
-    templateHTML = templateHTML.replace('{{user}}', user);
-    templateHTML = templateHTML.replace('{{total}}', total);
+    let items = '';
+    for (let product of products) {
+      items +=
+        `<tr class="service">
+          <td class="tableitem"> <p class="itemtext"> ${product.name} <br> (${product.id})</p></td >
+          <td class="tableitem"> <p class="itemtext"> ${product.amount} </p></td >
+          <td class="tableitem"> <p class="itemtext"> $${product.price} </p></td >
+        </tr>
+      `;
+    }
+    const tip: number = subtotal * 0.1;
+    const total: number = subtotal + tip;
+    templateHTML = templateHTML.replace('{{subtotal}}', subtotal); // replace items string
+    templateHTML = templateHTML.replace('{{items}}', items); // replace items string
+    templateHTML = templateHTML.replace('{{tip}}', tip.toString()); // replace items string
+    templateHTML = templateHTML.replace('{{total}}', total.toString()); // replace items string
 
     const options: pdf.CreateOptions = {
-      directory: '/static/receipts'
+      directory: 'static/receipts' // save in receipts
     };
 
     pdf
