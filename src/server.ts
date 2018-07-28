@@ -15,6 +15,7 @@ import * as AuthRouter from "./router/auth.router";
 import * as ProductRouter from "./router/product.router";
 import * as CategoryRouter from "./router/category.router";
 import * as ComboRouter from "./router/combo.router";
+import * as ReceiptRouter from "./router/receipt.router";
 
 class Server {
   // set app to be of type express.Application
@@ -76,6 +77,8 @@ class Server {
     this.app.use("/api/v1/products", ProductRouter.default);
     this.app.use("/api/v1/categories", CategoryRouter.default);
     this.app.use("/api/v1/combos", ComboRouter.default);
+    this.app.use("/api/v1/receipt", ReceiptRouter.default);
+
   }
 }
 

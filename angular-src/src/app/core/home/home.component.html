@@ -3,6 +3,14 @@
     <h4>
       Welcome home!
     </h4>
+    <h1>Testing dynamic receipt generator</h1>
+    <mat-form-field class='full-width'>
+      <input type="text" matInput placeholder='User' [(ngModel)]='user'>
+    </mat-form-field>
+    <mat-form-field class='full-width'>
+      <input type="number" matInput placeholder='Total' [(ngModel)]='total'>
+    </mat-form-field>
+    <button type='button' mat-button (click)='generateReceipt()'>test pdf download</button>
   </mat-card>
 
 </div>
