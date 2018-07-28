@@ -9,13 +9,13 @@ import { DAO } from "./dao";
 
 export class Update<T> implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
-  product: T;
+  object: T;
   _id: string;
   constructor(
-    private service: DAO<T>,
-    private notifications: NotificationsService,
-    private router: Router,
-    private route: ActivatedRoute
+    public service: DAO<T>,
+    public notifications: NotificationsService,
+    public router: Router,
+    public route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -36,9 +36,9 @@ export class Update<T> implements OnInit, OnDestroy {
               : this.service.one(_id)
         ),
         takeUntil(this.ngUnsubscribe)
-        // tap(product => console.log(product))
+        // tap(object => console.log(object))
       )
-      .subscribe(product => (this.product = product));
+      .subscribe(object => (this.object = object));
   }
 
   ngOnDestroy() {
@@ -47,8 +47,8 @@ export class Update<T> implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    const product: T = form.value;
-    this.service.update(this._id, product).subscribe(
+    const object: T = form.value;
+    this.service.update(this._id, object).subscribe(
       (editedObject: T) => {
         this.notifications.show(
           `Edited ${this.service.className} (ID: ${editedObject["_id"]}`,
@@ -59,7 +59,7 @@ export class Update<T> implements OnInit, OnDestroy {
       },
       (e: HttpErrorResponse) => {
         this.notifications.show(e.error, this.service.collectionName, "danger");
-        form.resetForm(product);
+        form.resetForm(object);
       }
     );
   }

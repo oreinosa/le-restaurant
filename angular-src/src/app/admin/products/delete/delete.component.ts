@@ -12,10 +12,10 @@ import { Product } from "../../../shared/classes/product";
 })
 export class DeleteComponent extends Delete<Product> {
   constructor(
-    productsService: ProductsService,
-    notifications: NotificationsService,
-    router: Router,
-    route: ActivatedRoute
+    public productsService: ProductsService,
+    public notifications: NotificationsService,
+    public router: Router,
+    public route: ActivatedRoute
   ) {
     super(productsService, notifications, router, route);
   }

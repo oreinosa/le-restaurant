@@ -10,10 +10,10 @@ export class Delete<T> implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
   _id: string;
   constructor(
-    private service: DAO<T>,
-    private notifications: NotificationsService,
-    private router: Router,
-    private route: ActivatedRoute
+    public service: DAO<T>,
+    public notifications: NotificationsService,
+    public router: Router,
+    public route: ActivatedRoute
   ) {}
 
   ngOnInit() {

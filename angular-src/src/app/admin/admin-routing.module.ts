@@ -7,6 +7,7 @@ const routes: Routes = [
     path: 'admin', component: AdminComponent, children: [
       { path: 'users', loadChildren: './users/users.module#UsersModule' },
       { path: 'products', loadChildren: './products/products.module#ProductsModule' },
+      { path: 'categories', loadChildren: './categories/categories.module#CategoriesModule' },
       { path: '', pathMatch: 'full', redirectTo: 'users' }
     ]
   }

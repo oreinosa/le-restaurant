@@ -6,16 +6,13 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <ng-container *ngIf='user'>
+      <ng-container *ngIf='object as user'>
         <mat-form-field>
           <input matInput type="text" placeholder='Name' [ngModel]='user.name' name='name' required [readonly]='f.submitted'>
         </mat-form-field>
         <mat-form-field>
           <input matInput type="text" placeholder='User name' [ngModel]='user.username' name='username' required [readonly]='f.submitted'>
         </mat-form-field>
-        <!-- <mat-form-field>
-          <input matInput type="email" placeholder='Email address' [ngModel]='user.email' name='email' required [readonly]='f.submitted'>
-        </mat-form-field> -->
         <mat-form-field>
           <mat-select placeholder='Role' [ngModel]='user.role' name='role' required [disabled]='f.submitted'>
             <mat-option *ngFor='let role of roles' [value]='role'>{{ role }}</mat-option>

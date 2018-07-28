@@ -10,9 +10,9 @@ const routes: Routes = [
     path: '', component: UsersComponent, children: [
       { path: 'add', component: CreateComponent },
       { path: 'update', component: UpdateComponent },
-      { path: 'update/:username', component: UpdateComponent },
+      { path: 'update/:_id', component: UpdateComponent },
       { path: 'delete', component: DeleteComponent },
-      { path: 'delete/:username', component: DeleteComponent },
+      { path: 'delete/:_id', component: DeleteComponent },
     ]
   },
 ];

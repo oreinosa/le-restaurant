@@ -1,13 +1,12 @@
+import { CategoriesService } from './../../categories/categories.service';
 import { Component } from "@angular/core";
 import { Product } from "../../../shared/classes/product";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ProductsService } from "../products.service";
-import { map, filter, tap, switchMap, takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
-import { NgForm } from "@angular/forms";
+import { map } from "rxjs/operators";
 import { NotificationsService } from "./../../../notifications/notifications.service";
-import { HttpErrorResponse } from "@angular/common/http";
 import { Update } from "../../../shared/classes/update";
+import { Category } from "../../../shared/classes/category";
 
 @Component({
   selector: "app-update",
@@ -15,12 +14,30 @@ import { Update } from "../../../shared/classes/update";
   styleUrls: ["./update.component.scss"]
 })
 export class UpdateComponent extends Update<Product> {
+  categories: Category[];
   constructor(
-    service: ProductsService,
-    notifications: NotificationsService,
-    router: Router,
-    route: ActivatedRoute
+    public service: ProductsService,
+    public notifications: NotificationsService,
+    public router: Router,
+    public route: ActivatedRoute,
+    private categoriesService: CategoriesService
   ) {
     super(service, notifications, router, route);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.categoriesService
+      .all().pipe(
+        map(categories => categories.map(category => { return { name: category.name, _id: category._id } as Category }))
+      )
+      .subscribe((categories: Category[]) => this.categories = categories);
+  }
+
+  compareCategoryFn(a: Category, b: Category): boolean {
+    if(a && b){
+      return a._id === b._id;
+    }
+    return false;
   }
 }

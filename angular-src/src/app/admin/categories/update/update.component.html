@@ -1,0 +1,23 @@
+<form #f='ngForm' (ngSubmit)='onSubmit(f)'>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Edit category</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf='object as category'>
+        <mat-form-field>
+          <input matInput type="text" placeholder='Name' [ngModel]='category.name' name='name' required [readonly]='f.submitted'>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder='Description' [ngModel]='category.description' name='description' required [readonly]='f.submitted'>
+        </mat-form-field>
+      </ng-container>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type='submit' [disabled]='f.invalid || f.submitted'>Submit</button>
+      <button mat-button type='button' routerLink='../../' [disabled]='f.submitted'>Cancel</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

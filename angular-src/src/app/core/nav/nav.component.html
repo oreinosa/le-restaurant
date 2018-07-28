@@ -16,7 +16,7 @@
           {{ link.label }}
         </a>
         <hr>
-        <a *ngFor='let action of actions' mat-list-item (click)='onAction(action.name)'>
+        <a *ngFor='let action of actions' mat-list-item (click)='onAction(action.name);drawer.close()'>
           <mat-icon *ngIf='action.icon'>{{ action.icon }}</mat-icon>
           {{ action.label }}
         </a>

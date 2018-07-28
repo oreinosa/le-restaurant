@@ -1,9 +1,9 @@
 import { model, Schema, Model, Document } from "mongoose";
-
+import { Category, ICategory } from "./category.model";
+Category.schema.path('description').required(false);
 const ProductSchema: Schema = new Schema({
   name: {
     type: String,
-    default: "",
     required: true
   },
   price: {
@@ -13,6 +13,10 @@ const ProductSchema: Schema = new Schema({
   cost: {
     type: Number,
     required: true
+  },
+  category: {
+    type: Category.schema,
+    required: false
   }
 });
 
@@ -20,6 +24,7 @@ export interface IProduct extends Document {
   name: string;
   price: number;
   cost: number;
+  category: ICategory;
 }
 
 export const Product: Model<IProduct> = model<IProduct>(

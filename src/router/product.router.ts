@@ -1,3 +1,4 @@
+import { Category } from './../models/category.model';
 import { Request, Response, Router } from "express";
 import passport from "../config/passport";
 import { Product, IProduct } from "../models/product.model";
@@ -27,7 +28,6 @@ class ProductRouter {
     Product.findById(_id)
       .then((data: IProduct) => {
         // if user is found
-        console.log(data);
         if (data) {
           res.status(200).json({ data });
         } else {
@@ -40,15 +40,16 @@ class ProductRouter {
   }
 
   public create(req: Request, res: Response): void {
-    const { name, price, cost } = req.body;
+    const { name, price, cost, category } = req.body;
 
     const product = new Product({
       name,
       price,
-      cost
+      cost,
+      category
     });
 
-    if (name && price && cost) {
+    if (name && price && cost && (category && category.name && category._id)) {
       Product.create(product)
         .then((product: IProduct) => {
           // product was added successfully
@@ -96,14 +97,14 @@ class ProductRouter {
 
     this.router
       .route("/")
-      .all(requireAdmin)
       .get(this.all)
+      .all(requireAdmin)
       .post(this.create);
 
     this.router
       .route("/:_id")
-      .all(requireAdmin)
       .get(this.one)
+      .all(requireAdmin)
       .put(this.update)
       .delete(this.delete);
   }

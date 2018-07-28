@@ -6,7 +6,7 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <ng-container *ngIf='product'>
+      <ng-container *ngIf='object as product'>
         <mat-form-field>
           <input matInput type="text" placeholder='Name' [ngModel]='product.name' name='name' required [readonly]='f.submitted'>
         </mat-form-field>
@@ -15,6 +15,11 @@
         </mat-form-field>
         <mat-form-field>
           <input matInput type="number" placeholder='Cost' [ngModel]='product.cost' name='cost' required [readonly]='f.submitted'>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder='Category' [ngModel]='product.category' name='category' required [disabled]='f.submitted' [compareWith]='compareCategoryFn'>
+            <mat-option *ngFor='let category of categories' [value]='category'>{{ category.name }}</mat-option>
+          </mat-select>
         </mat-form-field>
       </ng-container>
     </mat-card-content>
