@@ -16,6 +16,8 @@ import * as ProductRouter from "./router/product.router";
 import * as CategoryRouter from "./router/category.router";
 import * as ComboRouter from "./router/combo.router";
 import * as ReceiptRouter from "./router/receipt.router";
+import * as UploadRouter from "./router/upload.router";
+import * as fileUpload from 'express-fileupload';
 
 class Server {
   // set app to be of type express.Application
@@ -52,6 +54,7 @@ class Server {
     this.app.use(passportInitialize());
     this.app.use(passportSession());
 
+    this.app.use(fileUpload());
     // cors
     this.app.use((req, res, next) => {
       res.header("Access-Control-Allow-Origin", "http://localhost:4200");
@@ -78,7 +81,7 @@ class Server {
     this.app.use("/api/v1/categories", CategoryRouter.default);
     this.app.use("/api/v1/combos", ComboRouter.default);
     this.app.use("/api/v1/receipt", ReceiptRouter.default);
-
+    this.app.use("/api/v1/upload", UploadRouter.default);
   }
 }
 

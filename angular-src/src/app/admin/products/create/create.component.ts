@@ -1,6 +1,7 @@
+import { UploadComponent } from './../../../upload/upload.component';
 import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { CategoriesService } from './../../categories/categories.service';
 import { ProductsService } from "./../products.service";
 import { NotificationsService } from "./../../../notifications/notifications.service";
@@ -14,6 +15,7 @@ import { Create } from "../../../shared/classes/create";
   styleUrls: ["./create.component.scss"]
 })
 export class CreateComponent extends Create<Product> implements OnInit {
+  @ViewChild(UploadComponent) upload: UploadComponent;
   product = new Product();
   categories: Category[];
   constructor(
@@ -32,6 +34,15 @@ export class CreateComponent extends Create<Product> implements OnInit {
         map(categories => categories.map(category => { return { name: category.name, _id: category._id } as Category }))
       )
       .subscribe((categories: Category[]) => this.categories = categories);
+  }
+
+  onSubmit() {
+    this.upload
+      .onSubmit('products', this.product.name)
+      .subscribe(
+        (a: any) => console.log(a),
+        (e) => console.log(e)
+      );
   }
 
 }

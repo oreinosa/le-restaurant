@@ -1,3 +1,54 @@
-<p>
-  create works!
-</p>
+<form #f='ngForm' (ngSubmit)='onSubmit(f)'>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Add combo</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class='add-products row'>
+        <div class="col-12">
+          <h3>Add products</h3>
+        </div>
+        <ng-container *ngIf='allCategories'>
+          <div class="col-12">
+            <!-- Categories input -->
+            <mat-form-field>
+              <input type="text" placeholder="Categories" matInput [formControl]="categoryCtrl" [matAutocomplete]="categoryAuto">
+              <mat-autocomplete #categoryAuto="matAutocomplete" [displayWith]="displayCategoryFn" (optionSelected)='filterProductsByCategory($event.option.value.name)'>
+                <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
+                  {{ category.name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </ng-container>
+        <ng-container *ngIf='allProducts  && allProductsByCategory'>
+          <div class="col-12">
+            <!-- product input -->
+            <mat-form-field>
+              <input type="text" placeholder="Products" matInput [formControl]="productCtrl" [matAutocomplete]="auto" required>
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProductFn">
+                <mat-option *ngFor="let product of filteredProducts | async" [value]="product">
+                  {{product.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col-12" *ngIf='productCtrl.value as previewProduct'>
+            <img [src]="previewProduct.imageURL" alt="previewProduct.name" class="img-fluid">
+          </div>
+          <div class="col-12">
+            <!-- add product button -->
+            <button type="button" mat-button [disabled]='productCtrl.invalid' (click)='addProduct(productCtrl.value)'>Add product</button>
+          </div>
+        </ng-container>
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type='submit' [disabled]='f.invalid || f.submitted'>Submit</button>
+      <button mat-button type='button' routerLink='../' [disabled]='f.submitted'>Cancel</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

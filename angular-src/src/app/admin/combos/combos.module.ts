@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { SharedModule } from './../../shared/shared.module';
 import { CombosRoutingModule } from './combos-routing.module';
 import { CombosComponent } from './combos.component';
 import { CreateComponent } from './create/create.component';
@@ -10,7 +9,7 @@ import { DeleteComponent } from './delete/delete.component';
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedModule,
     CombosRoutingModule
   ],
   declarations: [CombosComponent, CreateComponent, UpdateComponent, ListComponent, DeleteComponent]

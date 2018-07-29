@@ -1,3 +1,4 @@
+import { UploadModule } from './../../upload/upload.module';
 import { ProductsService } from './products.service';
 import { NgModule } from '@angular/core';
 import { SharedModule } from './../../shared/shared.module';
@@ -12,6 +13,7 @@ import { ListComponent } from './list/list.component';
 @NgModule({
   imports: [
     SharedModule,
+    UploadModule,
     ProductsRoutingModule
   ],
   declarations: [

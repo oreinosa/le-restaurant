@@ -8,6 +8,7 @@ const routes: Routes = [
       { path: 'users', loadChildren: './users/users.module#UsersModule' },
       { path: 'products', loadChildren: './products/products.module#ProductsModule' },
       { path: 'categories', loadChildren: './categories/categories.module#CategoriesModule' },
+      { path: 'combos', loadChildren: './combos/combos.module#CombosModule' },
       { path: '', pathMatch: 'full', redirectTo: 'users' }
     ]
   }
