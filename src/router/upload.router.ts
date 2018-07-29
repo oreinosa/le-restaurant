@@ -16,7 +16,7 @@ class UploadRouter {
     const {
       route,
     } = req.body;
-
+    // console.log(req.files.image);
     const file = req.files.image as fileUpload.UploadedFile; // get only file sent
 
     if (!file) {
@@ -28,7 +28,7 @@ class UploadRouter {
       }
       file.mv(savePath + file.name, (err: any) => {
         if (err) return res.status(500).send(err);
-        res.status(200).json({ data: 'File uploaded' });
+        res.status(200).json({ data: savePath });
       })
     }
   }

@@ -7,6 +7,7 @@ import { map } from "rxjs/operators";
 import { NotificationsService } from "./../../../notifications/notifications.service";
 import { Update } from "../../../shared/classes/update";
 import { Category } from "../../../shared/classes/category";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: "app-update",
@@ -35,9 +36,18 @@ export class UpdateComponent extends Update<Product> {
   }
 
   compareCategoryFn(a: Category, b: Category): boolean {
-    if(a && b){
+    if (a && b) {
       return a._id === b._id;
     }
     return false;
+  }
+
+  onSubmit(form: NgForm) {
+    const productBefore: Product = this.object;
+    const productAfter: Product = form.value;
+    console.log('before ', productBefore);
+    console.log('after ', productAfter);
+    // if (productBefore.imageURL === productAfter.imageURL)
+    // productBefore.name === productAfter.name super.onSubmit(form);
   }
 }

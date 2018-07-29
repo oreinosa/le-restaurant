@@ -9,9 +9,9 @@ const port = normalizePort(process.env.PORT || 3000);
 Server.set("port", port);
 
 console.log(`Server listening on port ${port}`);
-
+const hostname = "0.0.0.0";
 const server = http.createServer(Server);
-server.listen(port);
+server.listen(port as number, hostname as string, 34);
 server.on("error", onError);
 server.on("listening", onListening);
 

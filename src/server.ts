@@ -6,6 +6,7 @@ import * as express from "express";
 import * as helmet from "helmet";
 import * as mongoose from "mongoose";
 import * as logger from "morgan";
+import * as path from "path";
 import {
   session as passportSession,
   initialize as passportInitialize
@@ -73,8 +74,10 @@ class Server {
 
   // application routes
   public routes(): void {
-    const router: express.Router = express.Router();
-
+    // const router: express.Router = express.Router();
+    const staticContent = express.static(path.join(__dirname, 'public'));
+    this.app.use(staticContent);
+    this.app.get('/', staticContent);
     this.app.use("/api/v1/users", UserRouter.default);
     this.app.use("/api/v1/auth", AuthRouter.default);
     this.app.use("/api/v1/products", ProductRouter.default);

@@ -8,6 +8,7 @@ import { NotificationsService } from "./../../../notifications/notifications.ser
 import { Product } from "../../../shared/classes/product";
 import { Category } from './../../../shared/classes/category';
 import { Create } from "../../../shared/classes/create";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: "app-create",
@@ -36,7 +37,7 @@ export class CreateComponent extends Create<Product> implements OnInit {
       .subscribe((categories: Category[]) => this.categories = categories);
   }
 
-  onSubmit() {
+  onSubmit(form: NgForm) {
     this.upload
       .onSubmit('products', this.product.name)
       .subscribe(
