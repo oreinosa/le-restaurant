@@ -25,7 +25,7 @@ sudo nginx -t;
 sudo certbot --nginx -d thenewfuturesv.com -d www.thenewfuturesv.com -m oscar.reinosa96@gmail.com --agree-tos --redirect --n;
 # /etc/letsencrypt/live/thenewfuturesv.com/fullchain.pem
 # /etc/letsencrypt/live/thenewfuturesv.com/privkey.pem
-# check certificate renewal
+# check certificate renewalr
 sudo certbot renew --dry-run;
 
 # install node.js
@@ -43,11 +43,6 @@ sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -
 
 #check status
 systemctl status pm2-oscar_reinosa96;
-
-# replace location object
-# sudo sed -i -e 's/# as directory, then fall back to displaying a 404./proxy_pass http:\/\/localhost:8080;proxy_http_version 1.1;proxy_set_header Upgrade $http_upgrade;proxy_set_header Connection 'upgrade';proxy_set_header Host $host;proxy_cache_bypass $http_upgrade;/g' /etc/nginx/sites-available/default;
-
- sudo sed -i -e 's/proxy_pass http:\/\/localhost:8080;proxy_http_version 1.1;proxy_set_header Upgrade $http_upgrade;proxy_set_header Connection 'upgrade';proxy_set_header Host $host;proxy_cache_bypass $http_upgrade;//g' /etc/nginx/sites-available/default;
 
 # check syntax
 sudo nginx -t;
