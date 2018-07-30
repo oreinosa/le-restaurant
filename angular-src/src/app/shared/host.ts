@@ -1,3 +1,3 @@
-import { isDevMode } from '@angular/core';
+import { environment } from "../../environments/environment";
 
-export const HOST = isDevMode() ? 'http://localhost:3000/api/v1/' : 'http://localhost:8080/api/v1/';
+export const HOST = environment.production ? 'http://localhost:3000/api/v1/' : 'http://localhost:8080/api/v1/';
