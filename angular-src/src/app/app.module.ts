@@ -30,7 +30,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:4200', 'localhost:3000'],
+        whitelistedDomains: ['localhost:4200', 'localhost:3000','https://thenewfuturesv.com', 'https://www.thenewfuturesv.com', 'thenewfuturesv.com', 'www.thenewfuturesv.com'],
       }
     }),
     BrowserAnimationsModule,
