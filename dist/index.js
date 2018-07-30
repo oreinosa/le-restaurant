@@ -4,7 +4,7 @@ var debug = require("debug");
 var http = require("http");
 var server_1 = require("./server");
 debug("ts-express:server");
-var port = normalizePort(process.env.PORT || 3000);
+var port = normalizePort(process.env.PORT || 8080);
 server_1.default.set("port", port);
 console.log("Server listening on port " + port);
 var hostname = "0.0.0.0";
