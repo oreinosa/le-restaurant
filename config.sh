@@ -2,9 +2,12 @@ sudo apt-get update -y;
 # install dependencies
 sudo apt-get install -y nginx curl software-properties-common;
 
+# allow https traffic
+sudo ufw allow 'Nginx Full';
+sudo ufw allow 22;
 # enable ufw
-sudo ufw enable;
-sudo systemctl start nginx
+sudo ufw --force enable;
+sudo systemctl start nginx;
 
 # configuring let's encrypt certificate
 sudo add-apt-repository ppa:certbot/certbot -y;
@@ -15,12 +18,11 @@ sudo apt-get install -y python-certbot-nginx;
 sudo sed -i -e 's/server_name _;/server_name thenewfuturesv.com www.thenewfuturesv.com;/g' /etc/nginx/sites-available/default;
 # check syntax
 sudo nginx -t;
-# reload 
+# reload
 # sudo systemctl reload nginx;
-# allow https traffic
-sudo ufw allow 'Nginx Full';
+
 # run certbot for nginx configuration with domain name
-sudo certbot --nginx -d thenewfuturesv.com -d www.thenewfuturesv.com -m oscar.reinosa96@gmail.com --agree-tos --redirect false;
+sudo certbot --nginx -d thenewfuturesv.com -d www.thenewfuturesv.com -m oscar.reinosa96@gmail.com --agree-tos --redirect --n;
 # /etc/letsencrypt/live/thenewfuturesv.com/fullchain.pem
 # /etc/letsencrypt/live/thenewfuturesv.com/privkey.pem
 # check certificate renewal
@@ -42,10 +44,10 @@ sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -
 #check status
 systemctl status pm2-oscar_reinosa96;
 
-# replace location object 
-sudo sed -i -e 's/# as directory, then fall back to displaying a 404./proxy_pass http:\/\/localhost:8080;proxy_http_version 1.1;proxy_set_header Upgrade $http_upgrade;proxy_set_header Connection 'upgrade';proxy_set_header Host $host;proxy_cache_bypass $http_upgrade;/g' /etc/nginx/sites-available/default;
+# replace location object
+# sudo sed -i -e 's/# as directory, then fall back to displaying a 404./proxy_pass http:\/\/localhost:8080;proxy_http_version 1.1;proxy_set_header Upgrade $http_upgrade;proxy_set_header Connection 'upgrade';proxy_set_header Host $host;proxy_cache_bypass $http_upgrade;/g' /etc/nginx/sites-available/default;
 
-# sudo sed -i -e 's/proxy_pass http:\/\/localhost:8080;proxy_http_version 1.1;proxy_set_header Upgrade $http_upgrade;proxy_set_header Connection 'upgrade';proxy_set_header Host $host;proxy_cache_bypass $http_upgrade;//g' /etc/nginx/sites-available/default;
+ sudo sed -i -e 's/proxy_pass http:\/\/localhost:8080;proxy_http_version 1.1;proxy_set_header Upgrade $http_upgrade;proxy_set_header Connection 'upgrade';proxy_set_header Host $host;proxy_cache_bypass $http_upgrade;//g' /etc/nginx/sites-available/default;
 
 # check syntax
 sudo nginx -t;
@@ -65,4 +67,4 @@ cd le-restaurant;
 npm install;
 
 # set run in the background;
-pm2 dist/index.js;
+sudo pm2 start dist/index.js;
