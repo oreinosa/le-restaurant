@@ -4,7 +4,6 @@ var path = require("path");
 function uploadImage(req, res, next) {
     var route = req.body.route;
     var file = req.files.image;
-    console.log(req.files);
     if (!file) {
         next("No files were uploaded");
     }

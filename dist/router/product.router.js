@@ -35,21 +35,20 @@ var ProductRouter = (function () {
         });
     };
     ProductRouter.prototype.create = function (req, res) {
-        var _a = req.body, name = _a.name, price = _a.price, cost = _a.cost, category = _a.category, imageURL = _a.imageURL;
-        console.log(req.body);
-        var product = new product_model_1.Product({
-            name: name,
-            price: price,
-            cost: cost,
-            category: category,
-            imageURL: imageURL
-        });
-        res.status(200).end();
+        var _a = req.body, name = _a.name, price = _a.price, cost = _a.cost, imageURL = _a.imageURL, category = _a.category;
+        console.log(req.body.category.name, req.body.category._id);
         if (name &&
             price &&
             cost &&
             imageURL &&
             (category && category.name && category._id)) {
+            var product = new product_model_1.Product({
+                name: name,
+                price: price,
+                cost: cost,
+                category: category,
+                imageURL: imageURL
+            });
             product_model_1.Product.create(product)
                 .then(function (product) {
                 var data = product;

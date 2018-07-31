@@ -53,13 +53,15 @@ class Server {
     // cors config
     var corsWhitelist = [
       "http://localhost:4200",
-      "http://localhost:8080",
-      "localhost",
-      "https://thenewfuturesv.com",
-      "https://www.thenewfuturesv.com"
+      "http://localhost",
+      "http://127.0.0.1",
+      "http://thenewfuturesv.com",
+      "http://www.thenewfuturesv.com",
     ];
     const corsConfig: cors.CorsOptions = {
       origin: (origin, callback) => {
+        // console.log('check origin');
+        // console.log(origin);
         if (corsWhitelist.indexOf(origin) !== -1) {
           callback(null, true);
         } else {

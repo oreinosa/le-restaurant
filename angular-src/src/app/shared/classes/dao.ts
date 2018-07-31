@@ -55,10 +55,16 @@ export abstract class DAO<T> {
       formData.append("image", fileUpload.file, fileUpload.fileName);
       formData.append("route", this.collectionName.toLowerCase());
       const keys = Object.keys(newObject);
+      let value: any;
       for (const key of keys) {
-        formData.append(key, newObject[key]);
+        value = newObject[key];
+        console.log(typeof value);
+        if (typeof value === "object") {
+          value = JSON.stringify(value);
+        }
+        console.log(value);
+        formData.append(key, value);
       }
-      console.log(keys);
       body = formData;
     }
     console.log(body);

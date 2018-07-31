@@ -9,7 +9,7 @@ export function uploadImage(
 ): void {
   const { route } = req.body;
   const file = req.files.image as fileUpload.UploadedFile; // get only file sent
-  console.log(req.files);
+  // console.log(req.files);
 
   if (!file) {
     next("No files were uploaded");
@@ -24,8 +24,6 @@ export function uploadImage(
       if (err) next(err);
       req.body.imageURL = staticPath;
       next();
-      // if (err) return res.status(500).send(err);
-      // res.status(200).json({ data: staticPath });
     });
   }
 }

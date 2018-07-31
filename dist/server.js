@@ -40,10 +40,10 @@ var Server = (function () {
         this.app.use(helmet());
         var corsWhitelist = [
             "http://localhost:4200",
-            "http://localhost:8080",
-            "localhost",
-            "https://thenewfuturesv.com",
-            "https://www.thenewfuturesv.com"
+            "http://localhost",
+            "http://127.0.0.1",
+            "http://thenewfuturesv.com",
+            "http://www.thenewfuturesv.com",
         ];
         var corsConfig = {
             origin: function (origin, callback) {

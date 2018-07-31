@@ -40,17 +40,8 @@ class ProductRouter {
   }
 
   public create(req: Request, res: Response): void {
-    const { name, price, cost, category, imageURL } = req.body;
-    console.log(req.body);
-    const product = new Product({
-      name,
-      price,
-      cost,
-      category,
-      imageURL
-    });
-    res.status(200).end();
-
+    const { name, price, cost, imageURL, category } = req.body;
+    console.log(req.body.category.name, req.body.category._id);
     if (
       name &&
       price &&
@@ -58,6 +49,14 @@ class ProductRouter {
       imageURL &&
       (category && category.name && category._id)
     ) {
+      const product = new Product({
+        name,
+        price,
+        cost,
+        category,
+        imageURL
+      });
+
       Product.create(product)
         .then((product: IProduct) => {
           // product was added successfully
