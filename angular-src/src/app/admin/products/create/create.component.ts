@@ -1,14 +1,14 @@
-import { UploadComponent } from './../../../upload/upload.component';
-import { map } from 'rxjs/operators';
+import { UploadComponent } from "./../../../upload/upload.component";
+import { map } from "rxjs/operators";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { CategoriesService } from './../../categories/categories.service';
+import { CategoriesService } from "./../../categories/categories.service";
 import { ProductsService } from "./../products.service";
 import { NotificationsService } from "./../../../notifications/notifications.service";
 import { Product } from "../../../shared/classes/product";
-import { Category } from './../../../shared/classes/category';
+import { Category } from "./../../../shared/classes/category";
 import { Create } from "../../../shared/classes/create";
-import { NgForm } from '@angular/forms';
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-create",
@@ -17,7 +17,7 @@ import { NgForm } from '@angular/forms';
 })
 export class CreateComponent extends Create<Product> implements OnInit {
   @ViewChild(UploadComponent) upload: UploadComponent;
-  product = new Product();
+  product = new Product(undefined, "testing test", 1, 1);
   categories: Category[];
   constructor(
     public productsService: ProductsService,
@@ -31,19 +31,20 @@ export class CreateComponent extends Create<Product> implements OnInit {
 
   ngOnInit() {
     this.categoriesService
-      .all().pipe(
-        map(categories => categories.map(category => { return { name: category.name, _id: category._id } as Category }))
+      .all()
+      .pipe(
+        // tslint:disable-next-line:arrow-return-shorthand
+        map(categories =>
+          categories.map(category => {
+            return { name: category.name, _id: category._id } as Category;
+          })
+        )
       )
-      .subscribe((categories: Category[]) => this.categories = categories);
+      .subscribe((categories: Category[]) => (this.categories = categories));
   }
 
   onSubmit(form: NgForm) {
-    this.upload
-      .onSubmit('products', this.product.name)
-      .subscribe(
-        (a: any) => console.log(a),
-        (e) => console.log(e)
-      );
+    const upload = this.upload.onSubmit("products", this.product.name);
+    super.onSubmit(form, upload);
   }
-
 }

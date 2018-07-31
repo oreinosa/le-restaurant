@@ -8,7 +8,6 @@ var express = require("express");
 var helmet = require("helmet");
 var mongoose = require("mongoose");
 var logger = require("morgan");
-var path = require("path");
 var passport_1 = require("passport");
 var UserRouter = require("./router/user.router");
 var AuthRouter = require("./router/auth.router");
@@ -39,12 +38,29 @@ var Server = (function () {
         this.app.use(logger("dev"));
         this.app.use(compression());
         this.app.use(helmet());
-        this.app.use(cors());
+        var corsWhitelist = [
+            "http://localhost:4200",
+            "http://localhost:8080",
+            "localhost",
+            "https://thenewfuturesv.com",
+            "https://www.thenewfuturesv.com"
+        ];
+        var corsConfig = {
+            origin: function (origin, callback) {
+                if (corsWhitelist.indexOf(origin) !== -1) {
+                    callback(null, true);
+                }
+                else {
+                    callback(new Error("Not allowed by CORS :("));
+                }
+            }
+        };
+        this.app.use(cors(corsConfig));
         this.app.use(passport_1.initialize());
         this.app.use(passport_1.session());
-        this.app.use(fileUpload());
+        var fileUploadConfig = {};
+        this.app.use(fileUpload(fileUploadConfig));
         this.app.use(function (req, res, next) {
-            res.header("Access-Control-Allow-Origin", "http://localhost:4200");
             res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials");
             res.header("Access-Control-Allow-Credentials", "true");
@@ -52,9 +68,6 @@ var Server = (function () {
         });
     };
     Server.prototype.routes = function () {
-        var staticContent = express.static(path.join(__dirname, 'public'));
-        this.app.use(staticContent);
-        this.app.get('/', staticContent);
         this.app.use("/api/v1/users", UserRouter.default);
         this.app.use("/api/v1/auth", AuthRouter.default);
         this.app.use("/api/v1/products", ProductRouter.default);

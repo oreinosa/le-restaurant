@@ -3,6 +3,7 @@ import { NotificationsService } from "./../../notifications/notifications.servic
 import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { DAO } from "./dao";
+import { Upload } from "../../upload/upload";
 
 export class Create<T> {
   constructor(
@@ -12,11 +13,11 @@ export class Create<T> {
     public route: ActivatedRoute
   ) {}
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm, fileUpload?: Upload) {
     const product: T = form.value;
-    this.service.create(product).subscribe(
+    this.service.create(product, fileUpload).subscribe(
       (addedObject: T) => {
-        // console.log(product);
+        // console.log(addedObject);
         this.notifications.show(
           `Added ${this.service.className} (ID: ${addedObject["_id"]}`,
           this.service.collectionName,

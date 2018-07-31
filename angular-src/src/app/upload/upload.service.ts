@@ -1,27 +1,30 @@
-import { HOST } from './../shared/host';
-import { HttpClient, HttpHeaders, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpRequest,
+  HttpEventType,
+  HttpResponse
+} from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
+import { environment } from "../../environments/environment";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class UploadService {
-  private api = HOST + 'upload';
+  private api = environment.api + "upload";
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   uploadFile(route: string, fileName: string, file: File): Observable<any> {
     // const status = {};
     const formData: FormData = new FormData();
-    formData.append('image', file, fileName);
-    formData.append('route', route);
+    formData.append("image", file, fileName);
+    formData.append("route", route);
     // create a http-post request and pass the form
     // tell it to report the upload progress
-    const req = new HttpRequest('POST', this.api, formData, {
+    const req = new HttpRequest("POST", this.api, formData, {
       // reportProgress: true,
     });
 

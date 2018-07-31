@@ -16,6 +16,10 @@ var ProductSchema = new mongoose_1.Schema({
         type: Number,
         required: true
     },
+    imageURL: {
+        type: String,
+        required: true
+    },
     category: {
         type: category_model_1.Category.schema,
         required: false

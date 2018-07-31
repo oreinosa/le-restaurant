@@ -1,12 +1,9 @@
-import { map, tap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { HOST } from '../../shared/host';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../../shared/classes/user';
-import { DAO } from '../../shared/classes/dao';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { User } from "../../shared/classes/user";
+import { DAO } from "../../shared/classes/dao";
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class UsersService extends DAO<User> {
   constructor(httpClient: HttpClient) {

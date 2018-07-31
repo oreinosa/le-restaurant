@@ -6,7 +6,6 @@ import * as express from "express";
 import * as helmet from "helmet";
 import * as mongoose from "mongoose";
 import * as logger from "morgan";
-import * as path from "path";
 import {
   session as passportSession,
   initialize as passportInitialize
@@ -18,7 +17,7 @@ import * as CategoryRouter from "./router/category.router";
 import * as ComboRouter from "./router/combo.router";
 import * as ReceiptRouter from "./router/receipt.router";
 import * as UploadRouter from "./router/upload.router";
-import * as fileUpload from 'express-fileupload';
+import * as fileUpload from "express-fileupload";
 
 class Server {
   // set app to be of type express.Application
@@ -51,14 +50,37 @@ class Server {
     this.app.use(logger("dev"));
     this.app.use(compression());
     this.app.use(helmet());
-    this.app.use(cors());
+    // cors config
+    var corsWhitelist = [
+      "http://localhost:4200",
+      "http://localhost:8080",
+      "localhost",
+      "https://thenewfuturesv.com",
+      "https://www.thenewfuturesv.com"
+    ];
+    const corsConfig: cors.CorsOptions = {
+      origin: (origin, callback) => {
+        if (corsWhitelist.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS :("));
+        }
+      }
+    };
+
+    this.app.use(cors(corsConfig));
+
     this.app.use(passportInitialize());
     this.app.use(passportSession());
 
-    this.app.use(fileUpload());
-    // cors
+    const fileUploadConfig: fileUpload.Options = {};
+
+    this.app.use(fileUpload(fileUploadConfig));
     this.app.use((req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+      // res.header(
+      //   "Access-Control-Allow-Origin",
+      //   "http://localhost:4200, https://thenewfuturesv.com, https://www.thenewfuturesv.com"
+      // );
       res.header(
         "Access-Control-Allow-Methods",
         "GET, POST, PUT, DELETE, OPTIONS"
@@ -75,9 +97,9 @@ class Server {
   // application routes
   public routes(): void {
     // const router: express.Router = express.Router();
-    const staticContent = express.static(path.join(__dirname, 'public'));
-    this.app.use(staticContent);
-    this.app.get('/', staticContent);
+    // const staticContent = express.static(path.join(__dirname, "public"));
+    // this.app.use(staticContent);
+    // this.app.get("/", staticContent);
     this.app.use("/api/v1/users", UserRouter.default);
     this.app.use("/api/v1/auth", AuthRouter.default);
     this.app.use("/api/v1/products", ProductRouter.default);

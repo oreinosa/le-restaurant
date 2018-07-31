@@ -1,6 +1,6 @@
-import { HOST } from './../../shared/host';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  subtotal: number = 0;
+  subtotal = 0;
   user: string;
   constructor(
     private http: HttpClient
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
       subtotal: this.subtotal,
       user: this.user
     };
-    this.http.post(HOST + 'receipt', body, { responseType: 'blob' })
+    this.http.post(environment.api + 'receipt', body, { responseType: 'blob' })
       .subscribe(blob => {
         console.log(blob);
         const a = document.createElement('a');

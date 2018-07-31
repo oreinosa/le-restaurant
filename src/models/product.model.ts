@@ -14,6 +14,10 @@ const ProductSchema: Schema = new Schema({
     type: Number,
     required: true
   },
+  imageURL: {
+    type: String,
+    required: true
+  },
   category: {
     type: Category.schema,
     required: false
@@ -24,6 +28,7 @@ export interface IProduct extends Document {
   name: string;
   price: number;
   cost: number;
+  imageURL: string;
   category: ICategory;
 }
 

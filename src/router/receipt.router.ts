@@ -21,7 +21,7 @@ class ReceiptRouter {
     const template = path.join(__dirname, '../static/receipts', 'index.html'); // retrieve template url string
     const filename = template.replace('.html', '.pdf'); // filename will be .pdf
     let templateHTML = fs.readFileSync(template, 'utf8'); // read file (readfileSync converts file to string)
-
+    console.log(filename);
     let items = '';
     for (let product of products) {
       items +=

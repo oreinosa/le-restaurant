@@ -9,7 +9,6 @@ var opts = {
     secretOrKey: config_1.Config.secret
 };
 var isLoggedInStrategy = new passport_jwt_1.Strategy(opts, function (jwt_payload, done) {
-    console.log("strategy");
     var id = jwt_payload.data._id;
     user_model_1.User.findById(id)
         .then(function (user) {

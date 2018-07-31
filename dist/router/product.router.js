@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var passport_1 = require("../config/passport");
 var product_model_1 = require("../models/product.model");
+var upload_1 = require("../helpers/upload");
 var ProductRouter = (function () {
     function ProductRouter() {
         this.router = express_1.Router();
@@ -34,14 +35,21 @@ var ProductRouter = (function () {
         });
     };
     ProductRouter.prototype.create = function (req, res) {
-        var _a = req.body, name = _a.name, price = _a.price, cost = _a.cost, category = _a.category;
+        var _a = req.body, name = _a.name, price = _a.price, cost = _a.cost, category = _a.category, imageURL = _a.imageURL;
+        console.log(req.body);
         var product = new product_model_1.Product({
             name: name,
             price: price,
             cost: cost,
-            category: category
+            category: category,
+            imageURL: imageURL
         });
-        if (name && price && cost && (category && category.name && category._id)) {
+        res.status(200).end();
+        if (name &&
+            price &&
+            cost &&
+            imageURL &&
+            (category && category.name && category._id)) {
             product_model_1.Product.create(product)
                 .then(function (product) {
                 var data = product;
@@ -63,7 +71,7 @@ var ProductRouter = (function () {
                 res.status(200).json({ data: data });
             }
             else {
-                res.status(404).send('Product not found');
+                res.status(404).send("Product not found");
             }
         })
             .catch(function (error) {
@@ -86,7 +94,7 @@ var ProductRouter = (function () {
             .route("/")
             .get(this.all)
             .all(requireAdmin)
-            .post(this.create);
+            .post(upload_1.uploadImage, this.create);
         this.router
             .route("/:_id")
             .get(this.one)

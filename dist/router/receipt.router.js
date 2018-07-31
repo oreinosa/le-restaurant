@@ -19,6 +19,7 @@ var ReceiptRouter = (function () {
         var template = path.join(__dirname, '../static/receipts', 'index.html');
         var filename = template.replace('.html', '.pdf');
         var templateHTML = fs.readFileSync(template, 'utf8');
+        console.log(filename);
         var items = '';
         for (var _i = 0, products_1 = products; _i < products_1.length; _i++) {
             var product = products_1[_i];

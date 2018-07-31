@@ -1,7 +1,7 @@
-import { Category } from './../models/category.model';
 import { Request, Response, Router } from "express";
 import passport from "../config/passport";
 import { Product, IProduct } from "../models/product.model";
+import { uploadImage } from "../helpers/upload";
 
 class ProductRouter {
   public router: Router;
@@ -40,16 +40,24 @@ class ProductRouter {
   }
 
   public create(req: Request, res: Response): void {
-    const { name, price, cost, category } = req.body;
-
+    const { name, price, cost, category, imageURL } = req.body;
+    console.log(req.body);
     const product = new Product({
       name,
       price,
       cost,
-      category
+      category,
+      imageURL
     });
+    res.status(200).end();
 
-    if (name && price && cost && (category && category.name && category._id)) {
+    if (
+      name &&
+      price &&
+      cost &&
+      imageURL &&
+      (category && category.name && category._id)
+    ) {
       Product.create(product)
         .then((product: IProduct) => {
           // product was added successfully
@@ -71,7 +79,7 @@ class ProductRouter {
         if (data) {
           res.status(200).json({ data });
         } else {
-          res.status(404).send('Product not found');
+          res.status(404).send("Product not found");
         }
       })
       .catch((error: any) => {
@@ -99,7 +107,7 @@ class ProductRouter {
       .route("/")
       .get(this.all)
       .all(requireAdmin)
-      .post(this.create);
+      .post(uploadImage, this.create);
 
     this.router
       .route("/:_id")

@@ -10,7 +10,7 @@ let opts: StrategyOptions = {
 };
 // strategy to check if user's id is found
 let isLoggedInStrategy = new Strategy(opts, (jwt_payload, done) => {
-  console.log("strategy");
+  // console.log("strategy");
   const id = jwt_payload.data._id;
   User.findById(id)
     .then((user: IUser) => {
