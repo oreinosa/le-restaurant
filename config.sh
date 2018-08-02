@@ -1,6 +1,6 @@
 sudo apt-get update -y;
 # install dependencies
-sudo apt-get install -y nginx curl software-properties-common;
+sudo apt-get install -y ufw nginx curl software-properties-common;
 
 # allow https traffic
 sudo ufw allow 'Nginx Full';
@@ -30,7 +30,7 @@ sudo certbot renew --dry-run;
 
 # install node.js
 cd ~;
-curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh;
+curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh;
 sudo bash nodesource_setup.sh;
 sudo apt-get install -y nodejs;
 sudo apt-get install -y build-essential;
@@ -57,9 +57,10 @@ sudo service mongod start;
 
 
 # get project
+cd ~;
 git clone https://github.com/oreinosa/le-restaurant;
 cd le-restaurant;
 npm install;
 
 # set run in the background;
-sudo pm2 start dist/index.js;
+# sudo pm2 start dist/index.js;
