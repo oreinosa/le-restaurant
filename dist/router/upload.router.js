@@ -16,7 +16,7 @@ var UploadRouter = (function () {
             res.status(400).send("No files were uploaded");
         }
         else {
-            var savePath_1 = path.join(__dirname, "../../static/", route);
+            var savePath_1 = path.join(__dirname, "../../static/", route, '/');
             fs.exists(savePath_1, function (flag) {
                 var filePath = route + "/" + file.name;
                 console.log(flag);

@@ -21,7 +21,7 @@ class UploadRouter {
     } else {
       // replace spaces with _
       // get static folder + route sent from user + file name
-      const savePath = path.join(__dirname, "../../static/", route);
+      const savePath = path.join(__dirname, "../../static/", route, '/');
 
       fs.exists(savePath, (flag: boolean) => {
         const filePath = `${route}/${file.name}`;
