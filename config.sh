@@ -22,7 +22,7 @@ sudo nginx -t;
 # sudo systemctl reload nginx;
 
 # run certbot for nginx configuration with domain name
-sudo certbot --nginx -d thenewfuturesv.com -d www.thenewfuturesv.com -m oscar.reinosa96@gmail.com --agree-tos --redirect --n;
+sudo certbot --nginx -d thenewfuturesv.com -d www.thenewfuturesv.com -m oscar.reinosa96@gmail.com --agree-tos --redirect --non-interactive;
 # /etc/letsencrypt/live/thenewfuturesv.com/fullchain.pem
 # /etc/letsencrypt/live/thenewfuturesv.com/privkey.pem
 # check certificate renewalr
