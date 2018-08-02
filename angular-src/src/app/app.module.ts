@@ -31,6 +31,8 @@ export function tokenGetter() {
       config: {
         tokenGetter: tokenGetter,
         whitelistedDomains: [
+          "localhost:8080",
+          "localhost",
           "127.0.0.1",
           "thenewfuturesv.com",
           "www.thenewfuturesv.com"

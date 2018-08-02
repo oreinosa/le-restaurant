@@ -20,26 +20,28 @@ class UploadRouter {
       res.status(400).send("No files were uploaded");
     } else {
       // replace spaces with _
-      const fileName = file.name.replace(" ", "_");
       // get static folder + route sent from user + file name
-      const staticPath = `static/${route}/${fileName}`;
-      const savePath = path.join(__dirname, "../", staticPath);
+      const savePath = path.join(__dirname, "../../static/", route);
 
-      file.mv(savePath, (err: any) => {
-        if (err) next(err);
-        next(savePath);
-        // if (err) return res.status(500).send(err);
-        // res.status(200).json({ data: staticPath });
+      fs.exists(savePath, (flag: boolean) => {
+        const filePath = `${route}/${file.name}`;
+        console.log(flag);
+        if (flag) {
+          file.mv(savePath + file.name, (err: any) => {
+            if (err) return res.status(500).send(err);
+            res.status(200).json({ data: filePath });
+          });
+        } else {
+          fs.mkdir(savePath + file.name, err => {
+            if (err) return res.status(500).send(err);
+            file.mv(savePath + file.name, (err: any) => {
+              if (err) return res.status(500).send(err);
+              res.status(200).json({ data: filePath });
+            });
+          });
+        }
       });
-
-      // fs.exists(savePath, (flag: boolean) => {
-      //   fs.mkdir(savePath, err => {
-      //     if (err) return res.status(500).send(err);
-
-      //   });
-      // });
     }
-    next();
   }
 
   // set up our routes

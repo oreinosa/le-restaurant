@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var passport_1 = require("../config/passport");
 var path = require("path");
+var fs = require("fs");
 var UploadRouter = (function () {
     function UploadRouter() {
         this.router = express_1.Router();
@@ -15,16 +16,30 @@ var UploadRouter = (function () {
             res.status(400).send("No files were uploaded");
         }
         else {
-            var fileName = file.name.replace(" ", "_");
-            var staticPath = "static/" + route + "/" + fileName;
-            var savePath_1 = path.join(__dirname, "../", staticPath);
-            file.mv(savePath_1, function (err) {
-                if (err)
-                    next(err);
-                next(savePath_1);
+            var savePath_1 = path.join(__dirname, "../../static/", route);
+            fs.exists(savePath_1, function (flag) {
+                var filePath = route + "/" + file.name;
+                console.log(flag);
+                if (flag) {
+                    file.mv(savePath_1 + file.name, function (err) {
+                        if (err)
+                            return res.status(500).send(err);
+                        res.status(200).json({ data: filePath });
+                    });
+                }
+                else {
+                    fs.mkdir(savePath_1 + file.name, function (err) {
+                        if (err)
+                            return res.status(500).send(err);
+                        file.mv(savePath_1 + file.name, function (err) {
+                            if (err)
+                                return res.status(500).send(err);
+                            res.status(200).json({ data: filePath });
+                        });
+                    });
+                }
             });
         }
-        next();
     };
     UploadRouter.prototype.routes = function () {
         var requireLogin = passport_1.default.authenticate("auth", { session: false });

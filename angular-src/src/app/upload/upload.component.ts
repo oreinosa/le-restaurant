@@ -17,9 +17,9 @@ export class UploadComponent implements OnInit {
   constructor(private uploadService: UploadService) {}
 
   ngOnInit() {
-    if (this.types.includes("jpg")) {
+    if (this.types.search(/(jpg|png|jpeg)/)) {
       this.type = "image";
-    } else if (this.types.includes("pdf")) {
+    } else if (this.types.search(/pdf/)) {
       this.type = "document";
     }
   }
@@ -31,7 +31,7 @@ export class UploadComponent implements OnInit {
   previewFile(event: any) {
     if (event.target.files && event.target.files[0]) {
       this.file = event.target.files[0];
-      if (this.types.includes(".jpg")) {
+      if (this.type === "image") {
         this.previewImage(this.file);
       }
     }
@@ -49,9 +49,7 @@ export class UploadComponent implements OnInit {
     // console.log(this.file);
     const type = this.file.type;
     const fileTypeIndex = type.indexOf("/") + 1;
-    const file = this.file;
     fileName += "." + type.substring(fileTypeIndex);
-    console.log(fileName);
-    return { file, fileName, fileRoute } as Upload;
+    return this.uploadService.uploadFile(fileRoute, fileName, this.file);
   }
 }

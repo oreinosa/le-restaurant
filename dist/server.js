@@ -38,24 +38,7 @@ var Server = (function () {
         this.app.use(logger("dev"));
         this.app.use(compression());
         this.app.use(helmet());
-        var corsWhitelist = [
-            "http://localhost:4200",
-            "http://localhost",
-            "http://127.0.0.1",
-            "http://thenewfuturesv.com",
-            "http://www.thenewfuturesv.com",
-        ];
-        var corsConfig = {
-            origin: function (origin, callback) {
-                if (corsWhitelist.indexOf(origin) !== -1) {
-                    callback(null, true);
-                }
-                else {
-                    callback(new Error("Not allowed by CORS :("));
-                }
-            }
-        };
-        this.app.use(cors(corsConfig));
+        this.app.use(cors());
         this.app.use(passport_1.initialize());
         this.app.use(passport_1.session());
         var fileUploadConfig = {};

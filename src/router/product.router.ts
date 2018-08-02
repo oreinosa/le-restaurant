@@ -1,7 +1,6 @@
 import { Request, Response, Router } from "express";
 import passport from "../config/passport";
 import { Product, IProduct } from "../models/product.model";
-import { uploadImage } from "../helpers/upload";
 
 class ProductRouter {
   public router: Router;
@@ -41,7 +40,6 @@ class ProductRouter {
 
   public create(req: Request, res: Response): void {
     const { name, price, cost, imageURL, category } = req.body;
-    console.log(req.body.category.name, req.body.category._id);
     if (
       name &&
       price &&
@@ -106,7 +104,7 @@ class ProductRouter {
       .route("/")
       .get(this.all)
       .all(requireAdmin)
-      .post(uploadImage, this.create);
+      .post(this.create);
 
     this.router
       .route("/:_id")

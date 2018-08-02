@@ -50,27 +50,8 @@ class Server {
     this.app.use(logger("dev"));
     this.app.use(compression());
     this.app.use(helmet());
-    // cors config
-    var corsWhitelist = [
-      "http://localhost:4200",
-      "http://localhost",
-      "http://127.0.0.1",
-      "http://thenewfuturesv.com",
-      "http://www.thenewfuturesv.com",
-    ];
-    const corsConfig: cors.CorsOptions = {
-      origin: (origin, callback) => {
-        // console.log('check origin');
-        // console.log(origin);
-        if (corsWhitelist.indexOf(origin) !== -1) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS :("));
-        }
-      }
-    };
 
-    this.app.use(cors(corsConfig));
+    this.app.use(cors());
 
     this.app.use(passportInitialize());
     this.app.use(passportSession());
@@ -79,10 +60,6 @@ class Server {
 
     this.app.use(fileUpload(fileUploadConfig));
     this.app.use((req, res, next) => {
-      // res.header(
-      //   "Access-Control-Allow-Origin",
-      //   "http://localhost:4200, https://thenewfuturesv.com, https://www.thenewfuturesv.com"
-      // );
       res.header(
         "Access-Control-Allow-Methods",
         "GET, POST, PUT, DELETE, OPTIONS"
@@ -98,10 +75,6 @@ class Server {
 
   // application routes
   public routes(): void {
-    // const router: express.Router = express.Router();
-    // const staticContent = express.static(path.join(__dirname, "public"));
-    // this.app.use(staticContent);
-    // this.app.get("/", staticContent);
     this.app.use("/api/v1/users", UserRouter.default);
     this.app.use("/api/v1/auth", AuthRouter.default);
     this.app.use("/api/v1/products", ProductRouter.default);

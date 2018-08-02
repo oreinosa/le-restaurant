@@ -48,27 +48,8 @@ export abstract class DAO<T> {
     );
   }
 
-  create(newObject: T, fileUpload?: Upload) {
-    let body: T | FormData = newObject;
-    if (fileUpload) {
-      const formData = new FormData();
-      formData.append("image", fileUpload.file, fileUpload.fileName);
-      formData.append("route", this.collectionName.toLowerCase());
-      const keys = Object.keys(newObject);
-      let value: any;
-      for (const key of keys) {
-        value = newObject[key];
-        console.log(typeof value);
-        if (typeof value === "object") {
-          value = JSON.stringify(value);
-        }
-        console.log(value);
-        formData.append(key, value);
-      }
-      body = formData;
-    }
-    console.log(body);
-    return this.http.post<any>(this.api, body).pipe(
+  create(newObject: T) {
+    return this.http.post<any>(this.api, newObject).pipe(
       map(res => {
         return res.data as T;
       }),
@@ -97,7 +78,7 @@ export abstract class DAO<T> {
   }
 
   delete(_id: string) {
-    return this.http.delete(this.api + _id).pipe(
+    return this.http.delete<any>(this.api + _id).pipe(
       tap(() => {
         const objects = this.objects.getValue().slice();
         const index = objects.findIndex(_object => _object["_id"] === _id);

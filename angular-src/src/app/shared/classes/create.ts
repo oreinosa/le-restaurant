@@ -13,11 +13,11 @@ export class Create<T> {
     public route: ActivatedRoute
   ) {}
 
-  onSubmit(form: NgForm, fileUpload?: Upload) {
+  onSubmit(form: NgForm) {
     const product: T = form.value;
-    this.service.create(product, fileUpload).subscribe(
+    this.service.create(product).subscribe(
       (addedObject: T) => {
-        // console.log(addedObject);
+        console.log(addedObject);
         this.notifications.show(
           `Added ${this.service.className} (ID: ${addedObject["_id"]}`,
           this.service.collectionName,

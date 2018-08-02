@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var passport_1 = require("../config/passport");
 var product_model_1 = require("../models/product.model");
-var upload_1 = require("../helpers/upload");
 var ProductRouter = (function () {
     function ProductRouter() {
         this.router = express_1.Router();
@@ -36,7 +35,6 @@ var ProductRouter = (function () {
     };
     ProductRouter.prototype.create = function (req, res) {
         var _a = req.body, name = _a.name, price = _a.price, cost = _a.cost, imageURL = _a.imageURL, category = _a.category;
-        console.log(req.body.category.name, req.body.category._id);
         if (name &&
             price &&
             cost &&
@@ -93,7 +91,7 @@ var ProductRouter = (function () {
             .route("/")
             .get(this.all)
             .all(requireAdmin)
-            .post(upload_1.uploadImage, this.create);
+            .post(this.create);
         this.router
             .route("/:_id")
             .get(this.one)

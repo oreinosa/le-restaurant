@@ -8,17 +8,18 @@
     <mat-card-content>
       <div class="row">
         <div class="col-12 col-sm-6 col-lg-4 offset-lg-1">
+          <input type="text" placeholder='Image URL' [(ngModel)]='product.imageURL' name='imageURL' class='d-none'>
           <mat-form-field>
             <input matInput type="text" placeholder='Name' [(ngModel)]='product.name' name='name' required [readonly]='f.submitted'>
           </mat-form-field>
           <mat-form-field>
-            <input matInput type="number" placeholder='Price' [(ngModel)]='product.price' name='price' [required]='false' [readonly]='f.submitted'>
+            <input matInput type="number" placeholder='Price' [(ngModel)]='product.price' name='price' required [readonly]='f.submitted'>
           </mat-form-field>
           <mat-form-field>
-            <input matInput type="number" placeholder='Cost' [(ngModel)]='product.cost' name='cost' [required]='false' [readonly]='f.submitted'>
+            <input matInput type="number" placeholder='Cost' [(ngModel)]='product.cost' name='cost' required [readonly]='f.submitted'>
           </mat-form-field>
           <mat-form-field>
-            <mat-select placeholder='Category' [(ngModel)]='product.category' name='category' [required]='false' [disabled]='f.submitted'>
+            <mat-select placeholder='Category' [(ngModel)]='product.category' name='category' required>
               <mat-option *ngFor='let category of categories' [value]='category'>{{ category.name }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -29,7 +30,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button type='submit' [disabled]='f.invalid || f.submitted'>Submit</button>
+      <button mat-button type='submit' [disabled]='f.invalid || f.submitted || !upload?.fileURL'>Submit</button>
       <button mat-button type='button' routerLink='../' [disabled]='f.submitted'>Cancel</button>
     </mat-card-actions>
   </mat-card>

@@ -9,6 +9,7 @@ import { Product } from "../../../shared/classes/product";
 import { Category } from "./../../../shared/classes/category";
 import { Create } from "../../../shared/classes/create";
 import { NgForm } from "@angular/forms";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-create",
@@ -17,7 +18,7 @@ import { NgForm } from "@angular/forms";
 })
 export class CreateComponent extends Create<Product> implements OnInit {
   @ViewChild(UploadComponent) upload: UploadComponent;
-  product = new Product(undefined, "testing test", 1, 1);
+  product = new Product();
   categories: Category[];
   constructor(
     public productsService: ProductsService,
@@ -44,7 +45,20 @@ export class CreateComponent extends Create<Product> implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    const upload = this.upload.onSubmit("products", this.product.name);
-    super.onSubmit(form, upload);
+    console.log(form.value);
+    this.upload.onSubmit("products", this.product.name).subscribe(
+      (imageURL: string) => {
+        console.log(imageURL);
+        // this.product.imageURL = imageURL;
+        const imageCtrl = form.controls.imageURL;
+        imageCtrl.setValue(imageURL); // set imageURL input value to the resolt of the upload POST event
+        // form.setValue({ ...form.value, "imageURL": res.data });
+        console.log(form.value);
+        super.onSubmit(form);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
   }
 }
