@@ -28,6 +28,10 @@ sudo certbot --nginx -d thenewfuturesv.com -d www.thenewfuturesv.com -m oscar.re
 # check certificate renewalr
 sudo certbot renew --dry-run;
 
+# configure server -> location blocks to serve static files and reverse proxy to nodejs app
+sudo sed -i "46i46 \tlocation \/static/ {\n\t\tautoindex on;\n\t\ttry_files \$uri =404;\n\t}\n\n\tlocation \/api {\n\t\tproxy_pass http:\/\/localhost:8080;\n\t\tproxy_http_version 1.1;\n\t\tproxy_set_header Upgrade \$http_upgrade;\n\t\tproxy_set_header Connection \'upgrade\';\n\t\tproxy_set_header Host \$host;\n\t\tproxy_cache_bypass \$http_upgrade;\n\t}" /etc/nginx/sites-available/default;
+
+
 # install node.js
 cd ~;
 curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh;
