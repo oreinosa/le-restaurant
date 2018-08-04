@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<style>
+  .body {
+    padding: 0 15px; 
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  .receipt-header {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .receipt-header p {
+    display: inline-block;
+  }
+
+  .text-right {
+    text-align: right !important;
+  }
+
+  .text-left {
+    text-align: left !important;
+  }
+
+  .text-center {
+    text-align: center !important;
+  }
+
+  .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+  }
+
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    width: 60%
+  }
+
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    width: 10%
+  }
+
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    width: 15%
+  }
+
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    width: 15%
+  }
+
+  .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+  }
+
+  .table tbody+tbody {
+    border-top: 2px solid #dee2e6;
+  }
+
+  .table .table {
+    background-color: #fff;
+  }
+
+  .table-bordered {
+    border: 1px solid #dee2e6;
+  }
+
+  .table-bordered th,
+  .table-bordered td {
+    border: 1px solid #dee2e6;
+  }
+
+  .table-bordered thead th,
+  .table-bordered thead td {
+    border-bottom-width: 2px;
+  }
+</style>
+
+<body>
+  <div class="container" id='receipt'>
+    <div class="receipt-header">
+      <address>
+        <strong>Le restaurant</strong>
+        <br> False street #10
+        <br> Status, XX 666666
+        <br> P: 2257-7777
+      </address>
+      <span style='display:block'>Date: {{date}}</span>
+      <span style='display:block'>Receipt #: {{receipt_number}}</span>
+    </div>
+    <div class="text-center">
+      <h1>Receipt</h1>
+    </div>
+    <div class="table-container">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>#</th>
+            <th class="text-center">Price</th>
+            <th class="text-center">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{items}}
+          <tr>
+            <td>   </td>
+            <td>   </td>
+            <td class="text-right">
+              <p>
+                <strong>Subtotal: </strong>
+              </p>
+              <p>
+                <strong>Tax: </strong>
+              </p>
+            </td>
+            <td class="text-center">
+              <p>
+                <strong>${{subtotal}}</strong>
+              </p>
+              <p>
+                <strong>${{tax}}</strong>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>   </td>
+            <td>   </td>
+            <td class="text-right">
+              <h4>
+                <strong>Total: </strong>
+              </h4>
+            </td>
+            <td class="text-center">
+              <h4>
+                <strong>${{total}}</strong>
+              </h4>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -125,5 +125,7 @@ $RECYCLE.BIN/
 
 dist/*
 
-/static/*
-!/static/templates/*
+!static/
+
+static/*
+!static/templates/
