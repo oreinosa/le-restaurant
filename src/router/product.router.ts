@@ -47,13 +47,7 @@ class ProductRouter {
       imageURL &&
       (category && category.name && category._id)
     ) {
-      const product = new Product({
-        name,
-        price,
-        cost,
-        category,
-        imageURL
-      });
+      const product = new Product(req.body);
 
       Product.create(product)
         .then((product: IProduct) => {

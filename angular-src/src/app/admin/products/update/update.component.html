@@ -9,6 +9,7 @@
       <ng-container *ngIf='object as product'>
         <div class="row">
           <div class="col-12 col-sm-6 col-lg-4 offset-lg-1">
+            <input type="text" placeholder='Image URL' [(ngModel)]='product.imageURL' name='imageURL' class='d-none'>
             <mat-form-field>
               <input matInput type="text" placeholder='Name' [ngModel]='product.name' name='name' required [readonly]='f.submitted'>
             </mat-form-field>
@@ -25,7 +26,7 @@
             </mat-form-field>
           </div>
           <div class="col-12 col-sm-6 col-lg-6 offset-lg-1 text-center my-2">
-            <app-upload [fileURL]='product.imageURL'></app-upload>
+            <app-upload [fileURL]='product.imageURL | viewImage'></app-upload>
           </div>
         </div>
       </ng-container>

@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-12 mb-4">
-    <button mat-button type='button' (click)='addFile()'>Select {{ type }}</button>
+    <div class="drop_zone my-2 hover" (click)='addFile()' (drop)='onDrop($event)' (dragover)="onDragover($event);">
+      Select/Drag a file here!
+    </div>
     <input type="file" #file style='display:none' name='foo' placeholder='File upload' (change)="previewFile($event)" [accept]='types'
     />
   </div>

@@ -5,10 +5,19 @@
     </h4>
     <h1>Testing dynamic receipt generator</h1>
     <mat-form-field class='full-width'>
-      <input type="text" matInput placeholder='User' [(ngModel)]='user'>
+      <input type="text" matInput placeholder='User ID' [(ngModel)]='userId'>
     </mat-form-field>
     <mat-form-field class='full-width'>
-      <input type="number" matInput placeholder='Total' [(ngModel)]='subtotal'>
+      <input type="text" matInput placeholder='Receipt number' [(ngModel)]='receiptNumber'>
+    </mat-form-field>
+    <mat-form-field class='full-width'>
+      <input type="number" matInput placeholder='Sub total' [(ngModel)]='subtotal' (change)='onChangeSubtotal()'>
+    </mat-form-field>
+    <mat-form-field class='full-width'>
+      <input type="number" matInput placeholder='Tax' [(ngModel)]='tax' readonly>
+    </mat-form-field>
+    <mat-form-field class='full-width'>
+      <input type="number" matInput placeholder='Total' [(ngModel)]='total' readonly>
     </mat-form-field>
     <button type='button' mat-button (click)='generateReceipt()'>test pdf download</button>
   </mat-card>

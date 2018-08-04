@@ -8,7 +8,7 @@ import { Update } from "../../../shared/classes/update";
 @Component({
   selector: "app-update",
   templateUrl: "./update.component.html",
-  styleUrls: ["./update.component.scss"]
+  styleUrls: ["./update.component.scss", "../../styles/crud.scss"]
 })
 export class UpdateComponent extends Update<Category> {
   constructor(

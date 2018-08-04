@@ -1,12 +1,18 @@
-import { OnInit, OnDestroy } from "@angular/core";
+import { OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { switchMap, tap, takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { DAO } from "./dao";
+import { MatTableDataSource, MatPaginator, MatSort } from "@angular/material";
 
 export class List<T> implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
-  public objects: T[];
+  public dataSource = new MatTableDataSource<T>([]);
+  loading = true;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  // public objects: T[];
 
   constructor(
     public service: DAO<T>,
@@ -15,14 +21,17 @@ export class List<T> implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.service
       .all()
       .pipe(
+        tap(() => this.loading = false),
         switchMap(() => this.service.objects),
         takeUntil(this.ngUnsubscribe),
-        tap(objects => console.log(`${this.service.collectionName} : `, objects))
-      )
-      .subscribe((objects: T[]) => this.objects = objects);
+        tap(objects => console.log(`${this.service.collectionName} : `, objects)),
+    )
+      .subscribe((objects: T[]) => this.dataSource.data = objects);
   }
 
   ngOnDestroy() {

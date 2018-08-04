@@ -8,8 +8,12 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  userId: string = "asd";
+  receiptNumber = 0;
   subtotal = 0;
-  user: string;
+  tax = 0;
+  total = 0;
+
   constructor(
     private http: HttpClient
   ) {
@@ -19,10 +23,18 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  onChangeSubtotal(){
+    this.tax = this.subtotal * 0.1;
+    this.total = this.subtotal + this.tax;
+  }
+
   generateReceipt() {
     const body = {
+      userId: this.userId,
+      receiptNumber: this.receiptNumber,
       subtotal: this.subtotal,
-      user: this.user
+      tax: this.tax,
+      total: this.total,
     };
     this.http.post(environment.api + 'receipt', body, { responseType: 'blob' })
       .subscribe(blob => {

@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: "app-create",
   templateUrl: "./create.component.html",
-  styleUrls: ["./create.component.scss"]
+  styleUrls: ["./create.component.scss", "../../styles/crud.scss"]
 })
 export class CreateComponent extends Create<Combo> {
   combo = new Combo();

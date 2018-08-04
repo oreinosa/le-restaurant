@@ -7,7 +7,7 @@ import { List } from "../../../shared/classes/list";
 @Component({
   selector: "app-list",
   templateUrl: "./list.component.html",
-  styleUrls: ["./list.component.scss"]
+  styleUrls: ["./list.component.scss", "../../styles/crud.scss", "../../styles/list.scss"]
 })
 export class ListComponent extends List<User> {
   constructor(
@@ -17,7 +17,7 @@ export class ListComponent extends List<User> {
     super(
       service,
       router,
-      ["id", "createdAt", "name", "username", "email", "role", "actions"]
+      ["createdAt", "name", "username", "email", "role", "actions"]
     );
   }
 

@@ -14,7 +14,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 @Component({
   selector: "app-create",
   templateUrl: "./create.component.html",
-  styleUrls: ["./create.component.scss"]
+  styleUrls: ["./create.component.scss", "../../styles/crud.scss"]
 })
 export class CreateComponent extends Create<Product> implements OnInit {
   @ViewChild(UploadComponent) upload: UploadComponent;

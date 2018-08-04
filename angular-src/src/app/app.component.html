@@ -1,4 +1,4 @@
-<app-nav>
+<app-nav (dragover)='onDragover($event)' (drop)='onDrop($event)'>
   <router-outlet></router-outlet>
   <app-notifications></app-notifications>
 </app-nav>

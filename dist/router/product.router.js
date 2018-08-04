@@ -40,13 +40,7 @@ var ProductRouter = (function () {
             cost &&
             imageURL &&
             (category && category.name && category._id)) {
-            var product = new product_model_1.Product({
-                name: name,
-                price: price,
-                cost: cost,
-                category: category,
-                imageURL: imageURL
-            });
+            var product = new product_model_1.Product(req.body);
             product_model_1.Product.create(product)
                 .then(function (product) {
                 var data = product;

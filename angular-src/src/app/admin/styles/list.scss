@@ -1,0 +1,20 @@
+.mat-table, .mat-paginator{
+  background-color: inherit;
+}
+.mat-header-cell{
+  color: grey!important;
+}
+.mat-cell, .mat-header-cell {
+  padding: 5px 10px;   
+}
+.mat-cell{
+  overflow-wrap: break-word;
+}
+.table-container{
+  position: relative;
+  max-height: 500px;
+  overflow: auto;
+}
+table{
+  width: 100%;
+}

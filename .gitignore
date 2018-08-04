@@ -1,8 +1,6 @@
 
 # Created by https://www.gitignore.io/api/node,macos,windows,visualstudiocode
 
-dist/static
-
 ### macOS ###
 *.DS_Store
 .AppleDouble
@@ -125,4 +123,7 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/node,macos,windows,visualstudiocode
 
-static/
+dist/*
+
+/static/*
+!/static/templates/*

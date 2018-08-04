@@ -32,6 +32,7 @@ export abstract class DAO<T> {
   all() {
     return this.http.get<any>(this.api).pipe(
       map(res => {
+        // console.log(res.data);
         return res.data as T[];
       }),
       tap(objects => {

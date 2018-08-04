@@ -8,15 +8,15 @@ import { Category } from "../../../shared/classes/category";
 @Component({
   selector: "app-delete",
   templateUrl: "./delete.component.html",
-  styleUrls: ["./delete.component.scss"]
+  styleUrls: ["./delete.component.scss", "../../styles/crud.scss"]
 })
 export class DeleteComponent extends Delete<Category> {
   constructor(
-    public categoriesService: CategoriesService,
+    public service: CategoriesService,
     public notifications: NotificationsService,
     public router: Router,
     public route: ActivatedRoute
   ) {
-    super(categoriesService, notifications, router, route);
+    super(service, notifications, router, route);
   }
 }

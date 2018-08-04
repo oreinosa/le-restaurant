@@ -29,11 +29,12 @@
     "@types/helmet": "0.0.38",
     "@types/html-pdf": "^2.1.2",
     "@types/jsonwebtoken": "^7.2.8",
-    "@types/mongoose": "^5.2.2",
+    "@types/mongoose": "^5.2.3",
     "@types/morgan": "^1.7.35",
     "@types/mv": "^2.1.0",
     "@types/passport": "^0.4.6",
     "@types/passport-jwt": "^3.0.1",
+    "@types/uuid": "^3.4.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
@@ -45,10 +46,11 @@
     "helmet": "^3.13.0",
     "html-pdf": "^2.2.0",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.2.5",
+    "mongoose": "^5.2.6",
     "morgan": "^1.9.0",
     "mv": "^2.1.1",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "uuid": "^3.3.2"
   }
 }

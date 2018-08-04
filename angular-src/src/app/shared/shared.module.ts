@@ -32,6 +32,7 @@ import { CreateComponent } from './components/crud/create/create.component';
 import { ListComponent } from './components/crud/list/list.component';
 import { UpdateComponent } from './components/crud/update/update.component';
 import { DeleteComponent } from './components/crud/delete/delete.component';
+import { ViewImagePipe } from './pipes/view-image.pipe';
 
 
 
@@ -68,6 +69,7 @@ import { DeleteComponent } from './components/crud/delete/delete.component';
   exports: [
     CommonModule,
     CapitalizePipe,
+    ViewImagePipe,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
@@ -101,6 +103,7 @@ import { DeleteComponent } from './components/crud/delete/delete.component';
     ListComponent,
     UpdateComponent,
     DeleteComponent,
+    ViewImagePipe,
   ],
 })
 export class SharedModule { }

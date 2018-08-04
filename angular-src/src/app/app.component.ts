@@ -24,4 +24,11 @@ export class AppComponent implements OnInit {
     });
   }
 
+  onDragover(event) {
+    event.preventDefault();
+  }
+  onDrop(event) {
+    event.preventDefault();
+  }
+
 }

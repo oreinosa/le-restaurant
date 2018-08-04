@@ -14,21 +14,43 @@ import { map } from "rxjs/operators";
   providedIn: "root"
 })
 export class UploadService {
-  private api = environment.api + "upload";
+  private api = environment.api + "upload/";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  uploadFile(route: string, fileName: string, file: File): Observable<any> {
-    const formData: FormData = new FormData();
-    fileName = fileName.replace(/\s+/g, "-");
-    formData.append("image", file, fileName);
-    formData.append("route", route);
-    // create a http-post request and pass the form
+  uploadFile(route: string, fileName: string, file: File): Observable<string> {
+    const formData: FormData = this.prepareUpload(route, fileName, file);
     return this.http.post<any>(this.api, formData).pipe(
       map(res => {
         return res.data as string;
       })
     );
+  }
+
+  editFile(route: string, fileName: string, file: File, oldFilePath: string): Observable<string> {
+    const formData: FormData = this.prepareUpload(route, fileName, file);
+    formData.append('oldFilePath', oldFilePath);
+    return this.http.put<any>(this.api, formData).pipe(
+      map(res => {
+        return res.data as string;
+      })
+    );
+  }
+
+  deleteFile(oldFilePath: string) {
+    return this.http.delete<any>(this.api + oldFilePath).pipe(
+      map(res => {
+        return res.data as string;
+      })
+    );
+  }
+
+  prepareUpload(route: string, fileName: string, file: File): FormData {
+    const formData: FormData = new FormData();
+    fileName = fileName.replace(/\s+/g, "-");
+    formData.append("image", file, fileName);
+    formData.append("route", route);
+    return formData;
   }
 
   // uploadFile(route: string, fileName: string, file: File): Observable<any> {

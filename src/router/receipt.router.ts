@@ -12,44 +12,46 @@ class ReceiptRouter {
   }
 
   public generateReceipt(req: Request, res: Response): void {
-    const { user, subtotal } = req.body;
+    const { userId, receiptNumber, subtotal, tax, total } = req.body;
     let products: any[] = [
       { id: "abc", name: "Pilsener", amount: 6, price: 1 },
       { id: "abc", name: "Pilsener", amount: 6, price: 1 },
       { id: "abc", name: "Golden", amount: 6, price: 1 }
     ];
-    const templatePath = path.join(__dirname, "../../static/receipts");
-    const filename = templatePath.replace(".html", ".pdf"); // filename will be .pdf
+    const templatePath = path.join(__dirname, "../../static/templates/receipt.html");
     let templateHTML = fs.readFileSync(templatePath, "utf8"); // read file (readfileSync converts file to string)
-    console.log(filename);
     let items = "";
     for (let product of products) {
       items += `
-      <tr class="service">
-          <td class="tableitem"> <p class="itemtext"> ${product.name} <br> (${product.id})</p></td >
-          <td class="tableitem"> <p class="itemtext"> ${product.amount} </p></td >
-          <td class="tableitem"> <p class="itemtext"> $${product.price} </p></td >
-        </tr>
+      <tr class='text-center'>
+        <td class="item-name"> <p> ${product.name} <br> (${product.id})</p></td >
+        <td class="item-amount"> <p> ${product.amount} </p></td >
+        <td class="item-price"> <p> $${product.price} </p></td >
+        <td class="item-subtotal"> <p> $${product.price * product.amount} </p></td >
+      </tr>
       `;
     }
-    const tip: number = subtotal * 0.1;
-    const total: number = subtotal + tip;
-    templateHTML = templateHTML.replace("{{subtotal}}", subtotal); // replace items string
+    templateHTML = templateHTML.replace("{{date}}", new Date().toLocaleDateString()); // replace items string
+    templateHTML = templateHTML.replace("{{receipt_number}}", receiptNumber.toString()); // replace items string
+    templateHTML = templateHTML.replace("{{subtotal}}", subtotal.toString()); // replace items string
     templateHTML = templateHTML.replace("{{items}}", items); // replace items string
-    templateHTML = templateHTML.replace("{{tip}}", tip.toString()); // replace items string
+    templateHTML = templateHTML.replace("{{tax}}", tax.toString()); // replace items string
     templateHTML = templateHTML.replace("{{total}}", total.toString()); // replace items string
 
+    const filename = `${userId}_${receiptNumber}.pdf`; // filename will be .pdf
+    const filePath = path.join(__dirname, "../../static/receipts/", filename);
+    console.log(filePath);
     const options: pdf.CreateOptions = {
-      directory: "static/receipts" // save in receipts
-    };
-
+      width: '15cm',
+      height: '25cm'
+    }
     pdf
       .create(templateHTML, options)
-      .toFile(filename, (err: Error, fileinfo: pdf.FileInfo) => {
+      .toFile(filePath, (err: Error, fileinfo: pdf.FileInfo) => {
         if (err) res.status(400).send(err.message);
         // res.setHeader('Content-Type', 'application/force-download')
         // res.setHeader('Content-disposition', `attachment; filename = ${filename}`)
-        res.download(filename);
+        res.download(filePath);
         // stream.pipe(res);
       });
   }

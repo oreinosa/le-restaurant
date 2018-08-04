@@ -8,7 +8,7 @@ import { User } from '../../../shared/classes/user';
 @Component({
   selector: 'app-delete',
   templateUrl: './delete.component.html',
-  styleUrls: ['./delete.component.scss']
+  styleUrls: ['./delete.component.scss', "../../styles/crud.scss"]
 })
 export class DeleteComponent extends Delete<User> {
   constructor(
