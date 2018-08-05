@@ -16,6 +16,9 @@ import { AuthModule } from "./auth/auth.module";
 import { JwtModule } from "@auth0/angular-jwt";
 import { CapitalizePipe } from './shared/pipes/capitalize.pipe';
 import { ViewImagePipe } from './shared/pipes/view-image.pipe';
+import { environment } from '../environments/environment';
+
+import { ServiceWorkerModule } from '@angular/service-worker'
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -42,6 +45,7 @@ export function tokenGetter() {
     NotificationsModule,
     CoreModule,
     AuthModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     AppRoutingModule
   ],
   providers: [

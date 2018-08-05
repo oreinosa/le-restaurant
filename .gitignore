@@ -34,7 +34,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+le-restaurant.code-workspace
 # Runtime data
 pids
 *.pid
