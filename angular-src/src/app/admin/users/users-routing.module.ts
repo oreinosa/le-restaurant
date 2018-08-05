@@ -9,7 +9,6 @@ import { UsersComponent } from './users.component';
 const routes: Routes = [
   {
     path: '', component: UsersComponent, children: [
-      { path: '', pathMatch: 'full', component: ListComponent },
       { path: 'add', component: CreateComponent },
       { path: 'update', component: UpdateComponent },
       { path: 'update/:_id', component: UpdateComponent },
