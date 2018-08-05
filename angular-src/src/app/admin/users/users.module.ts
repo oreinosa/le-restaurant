@@ -1,4 +1,3 @@
-import { UsersService } from "./users.service";
 import { NgModule } from "@angular/core";
 import { SharedModule } from "./../../shared/shared.module";
 
@@ -18,6 +17,5 @@ import { ListComponent } from "./list/list.component";
     DeleteComponent,
     ListComponent
   ],
-  providers: [UsersService]
 })
-export class UsersModule {}
+export class UsersModule { }

@@ -14,6 +14,7 @@ export abstract class DAO<T> {
     public className: string,
     public collectionName: string
   ) {
+    console.log(`init ${collectionName} service`);
     this.api = environment.api + api + "/";
   }
 
@@ -26,7 +27,9 @@ export abstract class DAO<T> {
   }
 
   isObjectSelected(): boolean {
-    return !!this.selectedProductSubject.getValue();
+    const object = this.selectedProductSubject.getValue();
+    console.log(object);
+    return !!object;
   }
 
   all() {

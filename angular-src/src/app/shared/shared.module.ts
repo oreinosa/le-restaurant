@@ -96,11 +96,11 @@ import { ViewImagePipe } from './pipes/view-image.pipe';
   ],
   declarations: [
     CapitalizePipe,
+    ViewImagePipe,
     CreateComponent,
     ListComponent,
     UpdateComponent,
     DeleteComponent,
-    ViewImagePipe,
   ],
 })
 export class SharedModule { }

@@ -1,13 +1,16 @@
 import { model, Schema, Model, Document } from "mongoose";
-import { Product, IProduct } from "./product.model";
-Product.schema.path('category').required(false);
+import { ComboItem, IComboItem } from "./combo-item.model";
 
 const ComboSchema: Schema = new Schema({
-  products: [Product.schema]
+  items: [ComboItem.schema],
+  price: {
+    type: Number,
+    required: true,
+  }
 });
 
 export interface ICombo extends Document {
-  products: IProduct[];
+  items: IComboItem[];
 }
 
 export const Combo: Model<ICombo> = model<ICombo>(

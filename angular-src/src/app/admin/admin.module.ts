@@ -8,6 +8,6 @@ import { AdminComponent } from './admin.component';
     SharedModule,
     AdminRoutingModule
   ],
-  declarations: [AdminComponent]
+  declarations: [AdminComponent],
 })
 export class AdminModule { }

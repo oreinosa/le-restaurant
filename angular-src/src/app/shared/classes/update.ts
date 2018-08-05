@@ -42,6 +42,7 @@ export class Update<T> implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('destroy update');
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

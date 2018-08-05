@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, } from "@angular/core";
 import { UsersService } from "../users.service";
 import { User } from "../../../shared/classes/user";
 import { Router } from "@angular/router";
@@ -10,6 +10,7 @@ import { List } from "../../../shared/classes/list";
   styleUrls: ["./list.component.scss", "../../styles/crud.scss", "../../styles/list.scss"]
 })
 export class ListComponent extends List<User> {
+  data = [];
   constructor(
     public service: UsersService,
     public router: Router,

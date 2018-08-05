@@ -6,21 +6,22 @@ import { DAO } from "./dao";
 import { MatTableDataSource, MatPaginator, MatSort } from "@angular/material";
 
 export class List<T> implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
+  public ngUnsubscribe = new Subject();
   public dataSource = new MatTableDataSource<T>([]);
   loading = true;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
   // public objects: T[];
 
   constructor(
     public service: DAO<T>,
     public router: Router,
     public displayedColumns: string[]
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.service
@@ -35,6 +36,7 @@ export class List<T> implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('destroy list');
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

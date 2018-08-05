@@ -40,13 +40,11 @@ class ComboRouter {
   }
 
   public create(req: Request, res: Response): void {
-    const { products } = req.body;
+    const { items, price } = req.body;
+    console.log(req.body);
+    if (price && items && items instanceof Array && items.length) {
+      const combo = new Combo(req.body);
 
-    const combo = new Combo({
-      products
-    });
-
-    if (products && products instanceof Array && products.length) {
       Combo.create(combo)
         .then((combo: ICombo) => {
           // combo was added successfully

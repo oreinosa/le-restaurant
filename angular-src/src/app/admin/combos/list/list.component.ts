@@ -18,7 +18,7 @@ export class ListComponent extends List<Combo> {
     super(
       service,
       router,
-      ["products", "actions"]
+      ["items", "price", "actions"]
     );
   }
 }

@@ -1,7 +1,7 @@
-import { Product } from "./product";
+import { Item } from "./item";
 
 export class Combo {
   constructor(
-    public products?: Product[]
+    public items?: Item[]
   ) { }
 }

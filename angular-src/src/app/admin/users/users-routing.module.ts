@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { DeleteComponent } from './delete/delete.component';
 import { UpdateComponent } from './update/update.component';
 import { CreateComponent } from './create/create.component';
+import { ListComponent } from './list/list.component';
 import { UsersComponent } from './users.component';
 
 const routes: Routes = [
   {
     path: '', component: UsersComponent, children: [
+      { path: '', pathMatch: 'full', component: ListComponent },
       { path: 'add', component: CreateComponent },
       { path: 'update', component: UpdateComponent },
       { path: 'update/:_id', component: UpdateComponent },

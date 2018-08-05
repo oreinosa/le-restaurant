@@ -4,12 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'admin', component: AdminComponent, children: [
+    path: '', component: AdminComponent, children: [
       { path: 'users', loadChildren: './users/users.module#UsersModule' },
-      { path: 'products', loadChildren: './products/products.module#ProductsModule' },
-      { path: 'categories', loadChildren: './categories/categories.module#CategoriesModule' },
-      { path: 'combos', loadChildren: './combos/combos.module#CombosModule' },
-      { path: '', pathMatch: 'full', redirectTo: 'users' }
+      // { path: 'products', loadChildren: './products/products.module#ProductsModule' },
+      // { path: 'categories', loadChildren: './categories/categories.module#CategoriesModule' },
+      // { path: 'combos', loadChildren: './combos/combos.module#CombosModule' },
+      // { path: '', pathMatch: 'full', redirectTo: 'products' }
     ]
   }
 ];
